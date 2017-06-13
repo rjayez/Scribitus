@@ -10,33 +10,363 @@
     <height>871</height>
    </rect>
   </property>
+     <property name="contextMenuPolicy">
+         <enum>Qt::NoContextMenu</enum>
+     </property>
+     <property name="acceptDrops">
+         <bool>true</bool>
+     </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+     <property name="documentMode">
+         <bool>true</bool>
+     </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTreeWidget" name="treeWidget">
+      <widget class="QTableWidget" name="tableFiles">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>210</y>
-      <width>256</width>
+         <x>20</x>
+         <y>350</y>
+         <width>611</width>
       <height>192</height>
      </rect>
     </property>
+          <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+              </sizepolicy>
+          </property>
+          <property name="acceptDrops">
+              <bool>false</bool>
+          </property>
+          <property name="toolTip">
+              <string>Glisser un/des fichier(s)</string>
+          </property>
+          <property name="dragEnabled">
+              <bool>true</bool>
+          </property>
+          <property name="dragDropMode">
+              <enum>QAbstractItemView::NoDragDrop</enum>
+          </property>
+          <property name="defaultDropAction">
+              <enum>Qt::CopyAction</enum>
+          </property>
+          <attribute name="horizontalHeaderCascadingSectionResizes">
+              <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderDefaultSectionSize">
+              <number>150</number>
+          </attribute>
     <column>
      <property name="text">
-      <string notr="true">1</string>
+         <string>Chemin</string>
+     </property>
+    </column>
+          <column>
+              <property name="text">
+                  <string>Nom fichier</string>
+              </property>
+          </column>
+          <column>
+              <property name="text">
+                  <string>Nouveau nom fichier</string>
      </property>
     </column>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+      <widget class="QTableWidget" name="tableRules">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>130</y>
-      <width>113</width>
-      <height>20</height>
+         <x>20</x>
+         <y>100</y>
+         <width>611</width>
+         <height>192</height>
      </rect>
+    </property>
+          <property name="acceptDrops">
+              <bool>false</bool>
+          </property>
+          <property name="dragDropMode">
+              <enum>QAbstractItemView::NoDragDrop</enum>
+          </property>
+          <column>
+              <property name="text">
+                  <string>Couleur</string>
+              </property>
+          </column>
+          <column>
+              <property name="text">
+                  <string>Régle</string>
+              </property>
+          </column>
+      </widget>
+      <widget class="QLabel" name="label">
+          <property name="geometry">
+              <rect>
+                  <x>130</x>
+                  <y>70</y>
+                  <width>101</width>
+                  <height>16</height>
+              </rect>
+          </property>
+          <property name="text">
+              <string>Liste régles</string>
+          </property>
+      </widget>
+      <widget class="QGroupBox" name="groupBox">
+          <property name="geometry">
+              <rect>
+                  <x>720</x>
+                  <y>30</y>
+                  <width>551</width>
+                  <height>531</height>
+              </rect>
+          </property>
+          <property name="title">
+              <string>Régles</string>
+          </property>
+          <widget class="QRadioButton" name="radioDelete">
+              <property name="geometry">
+                  <rect>
+                      <x>30</x>
+                      <y>160</y>
+                      <width>82</width>
+                      <height>17</height>
+                  </rect>
+              </property>
+              <property name="text">
+                  <string>Supprimer</string>
+              </property>
+          </widget>
+          <widget class="QRadioButton" name="radioReplace">
+              <property name="geometry">
+                  <rect>
+                      <x>30</x>
+                      <y>210</y>
+                      <width>82</width>
+                      <height>17</height>
+                  </rect>
+              </property>
+              <property name="text">
+                  <string>Remplacer</string>
+              </property>
+          </widget>
+          <widget class="QLineEdit" name="deleteText">
+              <property name="geometry">
+                  <rect>
+                      <x>130</x>
+                      <y>160</y>
+                      <width>351</width>
+                      <height>20</height>
+                  </rect>
+              </property>
+          </widget>
+          <widget class="QLineEdit" name="replaceTextFirst">
+              <property name="geometry">
+                  <rect>
+                      <x>130</x>
+                      <y>210</y>
+                      <width>351</width>
+                      <height>20</height>
+                  </rect>
+              </property>
+          </widget>
+          <widget class="QLineEdit" name="replaceTextBy">
+              <property name="geometry">
+                  <rect>
+                      <x>130</x>
+                      <y>240</y>
+                      <width>351</width>
+                      <height>20</height>
+                  </rect>
+              </property>
+          </widget>
+          <widget class="QLabel" name="label_2">
+              <property name="geometry">
+                  <rect>
+                      <x>80</x>
+                      <y>240</y>
+                      <width>47</width>
+                      <height>13</height>
+                  </rect>
+              </property>
+              <property name="text">
+                  <string>par</string>
+              </property>
+          </widget>
+          <widget class="QCheckBox" name="checkBox">
+              <property name="geometry">
+                  <rect>
+                      <x>150</x>
+                      <y>70</y>
+                      <width>241</width>
+                      <height>17</height>
+                  </rect>
+              </property>
+              <property name="text">
+                  <string>Accepter Regex (Expression réguliére)</string>
+              </property>
+          </widget>
+          <widget class="QRadioButton" name="radioAdd">
+              <property name="geometry">
+                  <rect>
+                      <x>30</x>
+                      <y>310</y>
+                      <width>82</width>
+                      <height>17</height>
+                  </rect>
+              </property>
+              <property name="text">
+                  <string>Ajouter</string>
+              </property>
+          </widget>
+          <widget class="QLineEdit" name="addText">
+              <property name="geometry">
+                  <rect>
+                      <x>130</x>
+                      <y>310</y>
+                      <width>351</width>
+                      <height>20</height>
+                  </rect>
+              </property>
+          </widget>
+          <widget class="QRadioButton" name="radioBegin">
+              <property name="geometry">
+                  <rect>
+                      <x>130</x>
+                      <y>340</y>
+                      <width>82</width>
+                      <height>17</height>
+                  </rect>
+              </property>
+              <property name="text">
+                  <string>Début</string>
+              </property>
+          </widget>
+          <widget class="QRadioButton" name="radioEnd">
+              <property name="geometry">
+                  <rect>
+                      <x>230</x>
+                      <y>340</y>
+                      <width>82</width>
+                      <height>17</height>
+                  </rect>
+              </property>
+              <property name="text">
+                  <string>Fin</string>
+              </property>
+          </widget>
+          <widget class="QSpinBox" name="spinBox">
+              <property name="geometry">
+                  <rect>
+                      <x>360</x>
+                      <y>340</y>
+                      <width>42</width>
+                      <height>20</height>
+                  </rect>
+              </property>
+          </widget>
+          <widget class="QComboBox" name="listCouleur">
+              <property name="geometry">
+                  <rect>
+                      <x>130</x>
+                      <y>410</y>
+                      <width>161</width>
+                      <height>22</height>
+                  </rect>
+              </property>
+          </widget>
+          <widget class="QLabel" name="label_5">
+              <property name="geometry">
+                  <rect>
+                      <x>50</x>
+                      <y>410</y>
+                      <width>47</width>
+                      <height>13</height>
+                  </rect>
+              </property>
+              <property name="text">
+                  <string>Couleur</string>
+              </property>
+          </widget>
+          <widget class="QPushButton" name="buttonRule">
+              <property name="geometry">
+                  <rect>
+                      <x>140</x>
+                      <y>470</y>
+                      <width>211</width>
+                      <height>23</height>
+                  </rect>
+              </property>
+              <property name="text">
+                  <string>Ajouter régle</string>
+              </property>
+          </widget>
+          <widget class="QRadioButton" name="radioPosition">
+              <property name="geometry">
+                  <rect>
+                      <x>290</x>
+                      <y>340</y>
+                      <width>71</width>
+                      <height>17</height>
+                  </rect>
+              </property>
+              <property name="text">
+                  <string>position</string>
+              </property>
+          </widget>
+      </widget>
+      <widget class="QPushButton" name="pushButton_3">
+          <property name="geometry">
+              <rect>
+                  <x>650</x>
+                  <y>110</y>
+                  <width>41</width>
+                  <height>31</height>
+              </rect>
+          </property>
+          <property name="text">
+              <string>-</string>
+          </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_4">
+          <property name="geometry">
+              <rect>
+                  <x>650</x>
+                  <y>360</y>
+                  <width>41</width>
+                  <height>31</height>
+              </rect>
+          </property>
+          <property name="text">
+              <string>-</string>
+          </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_5">
+          <property name="geometry">
+              <rect>
+                  <x>650</x>
+                  <y>160</y>
+                  <width>41</width>
+                  <height>31</height>
+              </rect>
+          </property>
+          <property name="text">
+              <string>^</string>
+          </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_6">
+          <property name="geometry">
+              <rect>
+                  <x>650</x>
+                  <y>200</y>
+                  <width>41</width>
+                  <height>31</height>
+              </rect>
+          </property>
+          <property name="text">
+              <string>\/</string>
     </property>
    </widget>
   </widget>
