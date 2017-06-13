@@ -4,6 +4,7 @@ from PySide.QtGui import *
 from file import *
 from mainwindow import Ui_MainWindow
 from rule import *
+import sys
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):

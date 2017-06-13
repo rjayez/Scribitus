@@ -2,13 +2,12 @@
 
 # Form implementation generated from reading ui file 'mainWindow.ui'
 #
-# Created: Tue Jun 13 20:51:00 2017
+# Created: Tue Jun 13 21:00:05 2017
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
 
 from PySide import QtCore, QtGui
-
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -118,15 +117,6 @@ class Ui_MainWindow(object):
         self.pushButton_6 = QtGui.QPushButton(self.centralwidget)
         self.pushButton_6.setGeometry(QtCore.QRect(650, 200, 41, 31))
         self.pushButton_6.setObjectName("pushButton_6")
-        self.textEdit = QtGui.QTextEdit(self.centralwidget)
-        self.textEdit.setGeometry(QtCore.QRect(340, 600, 104, 71))
-        self.textEdit.setFrameShape(QtGui.QFrame.HLine)
-        self.textEdit.setMidLineWidth(1)
-        self.textEdit.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.textEdit.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.textEdit.setLineWrapMode(QtGui.QTextEdit.NoWrap)
-        self.textEdit.setTextInteractionFlags(QtCore.Qt.TextSelectableByKeyboard | QtCore.Qt.TextSelectableByMouse)
-        self.textEdit.setObjectName("textEdit")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1327, 21))
