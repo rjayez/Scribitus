@@ -1,9 +1,11 @@
 from PySide.QtCore import *
 from PySide.QtGui import *
 
+import widgetUtils
 from file import *
 from mainwindow import Ui_MainWindow
 from rule import *
+from widgetUtils import *
 import sys
 
 
@@ -14,15 +16,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
 
-        # self.setAcceptDrops(True)
         self.setupUi(self)
         self.remplirListeCouleur()
-        self.installEventFilter(self)
         self.assignWidgets()
         self.show()
 
     def assignWidgets(self):
         self.buttonRule.clicked.connect(self.addRule)
+        self.deleteText.textEdited.connect(self.toggleRadioDelete)
+        self.replaceTextBy.textEdited.connect(self.toggleRadioReplace)
+        self.replaceTextFirst.textEdited.connect(self.toggleRadioReplace)
+        self.addText.textEdited.connect(self.toggleRadioAdd)
+        self.btnDeleteFile.clicked.connect(self.deleteFile)
+        self.btnDeleteRule.clicked.connect(self.deleteRule)
+
+    # Methodes pour toggle les radio selon quels champs des regles sont édités
+    def toggleRadioDelete(self):
+        self.radioDelete.setChecked(True)
+
+    def toggleRadioAdd(self):
+        self.radioAdd.setChecked(True)
+
+    def toggleRadioReplace(self):
+        self.radioReplace.setChecked(True)
 
     # Ajoute une regle
     def addRule(self):
@@ -31,7 +47,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # Create rule object
         selectedColor = self.listCouleur.itemData(self.listCouleur.currentIndex())
-        print(selectedColor)
 
         # Recuperation des informations selon le radio selectionne
         ruleType = ""
@@ -67,6 +82,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.tableRules.resizeColumnsToContents()
 
+    def deleteRule(self):
+        selected = self.tableRules.selectedIndexes()
+        print("coucou")
+
+
     # Ajoute un fichier au tableau des fichiers
     def addFile(self, filePath):
 
@@ -80,13 +100,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tableFiles.setItem(rowIndex, 0, QTableWidgetItem(filePath))
 
         # Colonne ancien nom
-        textEdit = QTextEdit()
-        textEdit.setFrameShape(QFrame.HLine)
-        textEdit.setMidLineWidth(1)
-        textEdit.setLineWrapMode(QTextEdit.NoWrap)
-        textEdit.setTextInteractionFlags(Qt.TextSelectableByKeyboard | Qt.TextSelectableByMouse)
-        textEdit.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        textEdit.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        textEdit = widgetUtils.createScribitusQTextEdit()
         textEdit.append(file.name)
         self.tableFiles.setCellWidget(rowIndex, 1, textEdit)
 
@@ -97,6 +111,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.tableFiles.resizeColumnsToContents()
         self.tableFiles.clearFocus()
+
+    def deleteFile(self):
+        selected = self.tableFiles.selectedIndexes()
 
     # Remplir liste de couleurs
     def remplirListeCouleur(self):

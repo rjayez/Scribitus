@@ -7,9 +7,12 @@
     <x>0</x>
     <y>0</y>
        <width>1251</width>
-       <height>613</height>
+       <height>673</height>
    </rect>
   </property>
+     <property name="mouseTracking">
+         <bool>true</bool>
+     </property>
      <property name="contextMenuPolicy">
          <enum>Qt::NoContextMenu</enum>
      </property>
@@ -52,6 +55,9 @@
               <property name="text">
                   <string>Supprimer</string>
               </property>
+              <property name="checked">
+                  <bool>true</bool>
+              </property>
           </widget>
           <widget class="QRadioButton" name="radioReplace">
               <property name="geometry">
@@ -75,6 +81,9 @@
                       <height>20</height>
                   </rect>
               </property>
+              <property name="acceptDrops">
+                  <bool>false</bool>
+              </property>
           </widget>
           <widget class="QLineEdit" name="replaceTextFirst">
               <property name="geometry">
@@ -85,6 +94,9 @@
                       <height>20</height>
                   </rect>
               </property>
+              <property name="acceptDrops">
+                  <bool>false</bool>
+              </property>
           </widget>
           <widget class="QLineEdit" name="replaceTextBy">
               <property name="geometry">
@@ -94,6 +106,9 @@
                       <width>351</width>
                       <height>20</height>
                   </rect>
+              </property>
+              <property name="acceptDrops">
+                  <bool>false</bool>
               </property>
           </widget>
           <widget class="QLabel" name="label_2">
@@ -110,6 +125,9 @@
               </property>
           </widget>
           <widget class="QCheckBox" name="checkBox">
+              <property name="enabled">
+                  <bool>false</bool>
+              </property>
               <property name="geometry">
                   <rect>
                       <x>140</x>
@@ -125,7 +143,7 @@
           <widget class="QRadioButton" name="radioAdd">
               <property name="geometry">
                   <rect>
-                      <x>40</x>
+                      <x>30</x>
                       <y>210</y>
                       <width>82</width>
                       <height>17</height>
@@ -149,7 +167,7 @@
               <property name="geometry">
                   <rect>
                       <x>50</x>
-                      <y>310</y>
+                      <y>300</y>
                       <width>47</width>
                       <height>13</height>
                   </rect>
@@ -183,7 +201,7 @@
               <property name="title">
                   <string/>
               </property>
-              <widget class="QSpinBox" name="spinBox">
+              <widget class="QSpinBox" name="spinBoxPosition">
                   <property name="geometry">
                       <rect>
                           <x>250</x>
@@ -215,6 +233,9 @@
                           <height>20</height>
                       </rect>
                   </property>
+                  <property name="acceptDrops">
+                      <bool>false</bool>
+                  </property>
               </widget>
               <widget class="QRadioButton" name="radioEnd">
                   <property name="geometry">
@@ -241,6 +262,9 @@
                   <property name="text">
                       <string>Début</string>
                   </property>
+                  <property name="checked">
+                      <bool>true</bool>
+                  </property>
               </widget>
           </widget>
       </widget>
@@ -257,6 +281,9 @@
               <string>Liste fichiers</string>
           </property>
           <widget class="QTableWidget" name="tableFiles">
+              <property name="enabled">
+                  <bool>true</bool>
+              </property>
               <property name="geometry">
                   <rect>
                       <x>10</x>
@@ -270,6 +297,18 @@
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                   </sizepolicy>
+              </property>
+              <property name="minimumSize">
+                  <size>
+                      <width>611</width>
+                      <height>251</height>
+                  </size>
+              </property>
+              <property name="maximumSize">
+                  <size>
+                      <width>16777215</width>
+                      <height>251</height>
+                  </size>
               </property>
               <property name="acceptDrops">
                   <bool>false</bool>
@@ -309,6 +348,9 @@
               </column>
           </widget>
           <widget class="QPushButton" name="btnDeleteFile">
+              <property name="enabled">
+                  <bool>true</bool>
+              </property>
               <property name="geometry">
                   <rect>
                       <x>630</x>
@@ -367,6 +409,9 @@
               </column>
           </widget>
           <widget class="QPushButton" name="btnDownRule">
+              <property name="enabled">
+                  <bool>true</bool>
+              </property>
               <property name="geometry">
                   <rect>
                       <x>630</x>
@@ -385,6 +430,9 @@
               </property>
           </widget>
           <widget class="QPushButton" name="btnUpRule">
+              <property name="enabled">
+                  <bool>true</bool>
+              </property>
               <property name="geometry">
                   <rect>
                       <x>630</x>
@@ -403,6 +451,9 @@
               </property>
           </widget>
           <widget class="QPushButton" name="btnDeleteRule">
+              <property name="enabled">
+                  <bool>true</bool>
+              </property>
               <property name="geometry">
                   <rect>
                       <x>630</x>
@@ -465,5 +516,22 @@
   </action>
  </widget>
  <resources/>
- <connections/>
+    <connections>
+        <connection>
+            <sender>spinBoxPosition</sender>
+            <signal>valueChanged(QString)</signal>
+            <receiver>radioPosition</receiver>
+            <slot>toggle()</slot>
+            <hints>
+                <hint type="sourcelabel">
+                    <x>1110</x>
+                    <y>292</y>
+                </hint>
+                <hint type="destinationlabel">
+                    <x>1055</x>
+                    <y>291</y>
+                </hint>
+            </hints>
+        </connection>
+    </connections>
 </ui>
