@@ -55,7 +55,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.listRules.append(rule)
 
         # Ajout ligne dans le tableau
-        textEdit = QTextEdit()
+        # textEdit = QTextEdit()
         # textEdit.append("cou<span style=\"background-color:#CCFFD9;\">co</span>u")
 
         # Colonne de couleur
@@ -63,6 +63,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         item.setBackground(QBrush(QColor(rule.color.hex)))
         self.tableRules.setItem(rowIndex, 0, item)
         self.tableRules.setItem(rowIndex, 1, QTableWidgetItem(rule.description))
+        # self.tableRules.setCellWidget(rowIndex, 1, textEdit)
 
         self.tableRules.resizeColumnsToContents()
 
@@ -108,19 +109,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             model.appendRow(item)
 
     # Gestion du drag & drop
-
     def dragEnterEvent(self, event):
-        print("drag")
+        # Acception du type de drag pour les fichiers (hasUrls)
         if event.mimeData().hasUrls():
             event.accept()
         else:
             event.ignore()
 
+    # Gestion du drop
     def dropEvent(self, event):
-        print ("drop the bass")
         if event.mimeData().hasUrls():
             for url in event.mimeData().urls():
-                print (url.toLocalFile())
                 self.addFile(url.toLocalFile())
 
 
