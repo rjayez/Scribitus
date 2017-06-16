@@ -1,3 +1,5 @@
+from ctypes._endian import _swapped_meta
+
 from PySide.QtCore import *
 from PySide.QtGui import *
 
@@ -15,7 +17,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def __init__(self):
         super(MainWindow, self).__init__()
-
         self.setupUi(self)
         self.remplirListeCouleur()
         self.assignWidgets()
@@ -29,6 +30,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.addText.textEdited.connect(self.toggleRadioAdd)
         self.btnDeleteFile.clicked.connect(self.deleteFile)
         self.btnDeleteRule.clicked.connect(self.deleteRule)
+        self.btnUpRule.clicked.connect(self.upRule)
+        self.btnDownRule.clicked.connect(self.downRule)
 
     # Methodes pour toggle les radio selon quels champs des regles sont édités
     def toggleRadioDelete(self):
@@ -42,8 +45,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     # Ajoute une regle
     def addRule(self):
-        rowIndex = self.tableRules.rowCount()
-        self.tableRules.setRowCount(rowIndex + 1)
+
+        print(self.deleteText.pos())
+        QToolTip.showText(self.mapFromGlobal(self.deleteText.pos()), "coucou")
 
         # Create rule object
         selectedColor = self.listCouleur.itemData(self.listCouleur.currentIndex())
@@ -73,19 +77,70 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # textEdit = QTextEdit()
         # textEdit.append("cou<span style=\"background-color:#CCFFD9;\">co</span>u")
 
+        rowIndex = self.tableRules.rowCount()
+        self.tableRules.setRowCount(rowIndex + 1)
+
         # Colonne de couleur
-        item = QTableWidgetItem()
+        item = createTableItem(rule.color.name, rule)
         item.setBackground(QBrush(QColor(rule.color.hex)))
+
         self.tableRules.setItem(rowIndex, 0, item)
-        self.tableRules.setItem(rowIndex, 1, QTableWidgetItem(rule.description))
+        self.tableRules.setItem(rowIndex, 1, createTableItem(rule.description, rule))
         # self.tableRules.setCellWidget(rowIndex, 1, textEdit)
 
         self.tableRules.resizeColumnsToContents()
 
+    # Suppression de règle avec message box de confirmation
     def deleteRule(self):
-        selected = self.tableRules.selectedIndexes()
-        print("coucou")
+        listLigne = self.getListRowIndex()
 
+        listLigne = list(set(listLigne))  # Elimine les doublons
+
+        if len(listLigne) > 0:
+            messageBox = createMessageBoxOuiNon("Etes vous sur de supprimer cette ligne ?", "Suppression")
+            response = messageBox.exec_()
+            if response == QMessageBox.Yes:
+                # List à l'envers pour supprimer correctement les lignes du tableaux
+                for indexRow in reversed(listLigne):
+                    self.tableRules.removeRow(indexRow)
+                    del self.listRules[indexRow]
+
+    def upRule(self):
+
+        selectedItem = self.tableRules.selectedItems()
+        swapRow = True
+        for item in selectedItem:
+            # Switch d'item avec la ligne au dessus
+            row = item.row()
+            column = item.column()
+            if row is not 0:
+                tempItem = self.tableRules.takeItem(row - 1, column)
+                tempItem2 = self.tableRules.takeItem(row, column)
+                self.tableRules.setItem(row - 1, column, tempItem2)
+                self.tableRules.setItem(row, column, tempItem)
+                self.tableRules.selectRow(row - 1)
+
+                if swapRow:
+                    self.listRules[row - 1], self.listRules[row] = self.listRules[row], self.listRules[row - 1]  # Swap
+                    swapRow = False
+
+    def downRule(self):
+        selectedItem = self.tableRules.selectedItems()
+        swapRow = True
+        for item in selectedItem:
+            # Switch d'item avec la ligne au dessus
+            row = item.row()
+            column = item.column()
+            if row is not self.tableRules.rowCount() - 1:
+                tempItem = self.tableRules.takeItem(row + 1, column)
+                tempItem2 = self.tableRules.takeItem(row, column)
+                self.tableRules.setItem(row + 1, column, tempItem2)
+                self.tableRules.setItem(row, column, tempItem)
+                self.tableRules.selectRow(row + 1)
+
+                if swapRow:
+                    self.listRules[row + 1], self.listRules[row] = self.listRules[row], self.listRules[row + 1]  # Swap
+                    swapRow = False
 
     # Ajoute un fichier au tableau des fichiers
     def addFile(self, filePath):
@@ -114,6 +169,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def deleteFile(self):
         selected = self.tableFiles.selectedIndexes()
+        listLigne = []
+        for index in selected:
+            listLigne.append(index.row())
+
+        listLigne = list(set(listLigne))  # Elimine les doublons
+
+        if len(listLigne) > 0:
+            messageBox = createMessageBoxOuiNon("Etes vous sur de supprimer cette/ces ligne(s) ?", "Suppression")
+            response = messageBox.exec_()
+            if response == QMessageBox.Yes:
+                # List à l'envers pour supprimer correctement les lignes du tableaux
+                for indexRow in reversed(listLigne):
+                    self.tableFiles.removeRow(indexRow)
+                    del self.listFiles[indexRow]
 
     # Remplir liste de couleurs
     def remplirListeCouleur(self):

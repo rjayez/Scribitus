@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
        <width>1251</width>
-       <height>673</height>
+       <height>613</height>
    </rect>
   </property>
      <property name="mouseTracking">
@@ -31,7 +31,7 @@
          <bool>true</bool>
      </property>
   <widget class="QWidget" name="centralwidget">
-      <widget class="QGroupBox" name="groupBox">
+      <widget class="QGroupBox" name="groupBoxRules">
           <property name="geometry">
               <rect>
                   <x>720</x>
@@ -42,6 +42,9 @@
           </property>
           <property name="title">
               <string>Régles</string>
+          </property>
+          <property name="flat">
+              <bool>false</bool>
           </property>
           <widget class="QRadioButton" name="radioDelete">
               <property name="geometry">
@@ -156,9 +159,9 @@
           <widget class="QComboBox" name="listCouleur">
               <property name="geometry">
                   <rect>
-                      <x>120</x>
+                      <x>130</x>
                       <y>300</y>
-                      <width>361</width>
+                      <width>351</width>
                       <height>22</height>
                   </rect>
               </property>
@@ -166,7 +169,7 @@
           <widget class="QLabel" name="label_5">
               <property name="geometry">
                   <rect>
-                      <x>50</x>
+                      <x>60</x>
                       <y>300</y>
                       <width>47</width>
                       <height>13</height>
@@ -198,8 +201,14 @@
                       <height>91</height>
                   </rect>
               </property>
+              <property name="autoFillBackground">
+                  <bool>false</bool>
+              </property>
               <property name="title">
                   <string/>
+              </property>
+              <property name="flat">
+                  <bool>false</bool>
               </property>
               <widget class="QSpinBox" name="spinBoxPosition">
                   <property name="geometry">
@@ -268,17 +277,29 @@
               </widget>
           </widget>
       </widget>
-      <widget class="QGroupBox" name="groupBox_3">
+      <widget class="QGroupBox" name="groupBoxTableFile">
           <property name="geometry">
               <rect>
                   <x>20</x>
                   <y>220</y>
                   <width>681</width>
-                  <height>281</height>
+                  <height>321</height>
               </rect>
+          </property>
+          <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+              </sizepolicy>
+          </property>
+          <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
           </property>
           <property name="title">
               <string>Liste fichiers</string>
+          </property>
+          <property name="alignment">
+              <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
           </property>
           <widget class="QTableWidget" name="tableFiles">
               <property name="enabled">
@@ -293,7 +314,7 @@
                   </rect>
               </property>
               <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                   </sizepolicy>
@@ -324,6 +345,9 @@
               </property>
               <property name="defaultDropAction">
                   <enum>Qt::CopyAction</enum>
+              </property>
+              <property name="selectionBehavior">
+                  <enum>QAbstractItemView::SelectRows</enum>
               </property>
               <attribute name="horizontalHeaderCascadingSectionResizes">
                   <bool>false</bool>
@@ -370,7 +394,7 @@
               </property>
           </widget>
       </widget>
-      <widget class="QGroupBox" name="groupBox_5">
+      <widget class="QGroupBox" name="groupBoxTableRule">
           <property name="geometry">
               <rect>
                   <x>20</x>
@@ -394,9 +418,36 @@
               <property name="acceptDrops">
                   <bool>false</bool>
               </property>
+              <property name="styleSheet">
+                  <string notr="true"/>
+              </property>
+              <property name="frameShadow">
+                  <enum>QFrame::Sunken</enum>
+              </property>
+              <property name="editTriggers">
+                  <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
               <property name="dragDropMode">
                   <enum>QAbstractItemView::NoDragDrop</enum>
               </property>
+              <property name="selectionMode">
+                  <enum>QAbstractItemView::SingleSelection</enum>
+              </property>
+              <property name="selectionBehavior">
+                  <enum>QAbstractItemView::SelectRows</enum>
+              </property>
+              <property name="showGrid">
+                  <bool>true</bool>
+              </property>
+              <attribute name="horizontalHeaderHighlightSections">
+                  <bool>false</bool>
+              </attribute>
+              <attribute name="horizontalHeaderStretchLastSection">
+                  <bool>false</bool>
+              </attribute>
+              <attribute name="verticalHeaderHighlightSections">
+                  <bool>true</bool>
+              </attribute>
               <column>
                   <property name="text">
                       <string>Couleur</string>
