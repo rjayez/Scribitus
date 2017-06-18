@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'mainwindow.ui'
+# Form implementation generated from reading ui file 'mainWindow.ui'
 #
-# Created: Fri Jun 16 14:13:41 2017
+# Created: Fri Jun 16 20:47:09 2017
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -215,7 +215,7 @@ class Ui_MainWindow(object):
         self.checkBox.setText(QtGui.QApplication.translate("MainWindow", "Accepter Regex (Expression réguliére)", None,
                                                            QtGui.QApplication.UnicodeUTF8))
         self.radioAdd.setText(
-            QtGui.QApplication.translate("MainWindow", "    Ajouter", None, QtGui.QApplication.UnicodeUTF8))
+            QtGui.QApplication.translate("MainWindow", "Ajouter", None, QtGui.QApplication.UnicodeUTF8))
         self.label_5.setText(
             QtGui.QApplication.translate("MainWindow", "Couleur", None, QtGui.QApplication.UnicodeUTF8))
         self.buttonRule.setText(

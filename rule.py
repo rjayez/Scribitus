@@ -54,3 +54,30 @@ class Rule:
                            TypeRule.ADD: "Ajout %s " % self.elementAjout}
 
         return typeDescription[self.ruleType]
+
+    def applyRule(self, nomFichier):
+        pass
+
+
+class DeleteRule(Rule):
+    def __init__(self, ruleType, color, elementAjout, elementSuppression="", position=0):
+        Rule.__init__(self, ruleType, color, elementAjout, elementSuppression, position)
+
+    def applyRule(self, nomFichier):
+        return str(nomFichier).replace(self.elementSuppression, '')
+
+
+class AddRule(Rule):
+    def __init__(self, ruleType, color, elementAjout, elementSuppression="", position=0):
+        Rule.__init__(self, ruleType, color, elementAjout, elementSuppression, position)
+
+    def applyRule(self, nomFichier):
+        return [nomFichier].insert(self.position, self.elementAjout)
+
+
+class ReplaceRule(Rule):
+    def __init__(self, ruleType, color, elementAjout, elementSuppression="", position=0):
+        Rule.__init__(self, ruleType, color, elementAjout, elementSuppression, position)
+
+    def applyRule(self, nomFichier):
+        return nomFichier.replace(self.elementSuppression, self.elementAjout)

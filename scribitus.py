@@ -1,4 +1,4 @@
-from ctypes._endian import _swapped_meta
+# coding=utf-8
 
 from PySide.QtCore import *
 from PySide.QtGui import *
@@ -46,8 +46,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     # Ajoute une regle
     def addRule(self):
 
-        print(self.deleteText.pos())
-        QToolTip.showText(self.mapFromGlobal(self.deleteText.pos()), "coucou")
+        QToolTip.showText(self.mapToGlobal(self.deleteText.pos()), "coucou")
 
         # Create rule object
         selectedColor = self.listCouleur.itemData(self.listCouleur.currentIndex())
@@ -142,30 +141,47 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     self.listRules[row + 1], self.listRules[row] = self.listRules[row], self.listRules[row + 1]  # Swap
                     swapRow = False
 
+    def fillTableFile(self):
+        self.tableFiles.clear()
+        for file in self.listFiles:
+            rowIndex = self.tableFiles.rowCount()
+            self.tableFiles.setRowCount(rowIndex + 1)
+
+            # Colonne chemin filepath
+            self.tableFiles.setItem(rowIndex, 0, QTableWidgetItem(file.path))
+
+            # Colonne ancien nom
+            textEdit = widgetUtils.createScribitusQTextEdit()
+            textEdit.append(file.name)
+            self.tableFiles.setCellWidget(rowIndex, 1, textEdit)
+
+            # Colonne nouveau nom
+            newFileName = self.applyRules(file.name)
+
+            textEdit = QTextEdit()
+            textEdit.append(newFileName)
+            self.tableFiles.setCellWidget(rowIndex, 2, textEdit)
+
+        self.tableFiles.resizeColumnsToContents()
+        self.tableFiles.clearFocus()
+
+    # Applique la liste des régles sur le nom de fichier
+    def applyRules(self, nomFichier):
+
+        nouveauNom = nomFichier
+        for rule in self.listRules:
+            nouveauNom = rule.applyRule(nouveauNom)
+
+        return nouveauNom
+
     # Ajoute un fichier au tableau des fichiers
     def addFile(self, filePath):
 
         file = File(filePath)
         self.listFiles.append(file)
+        # Rafraichir la liste de fichier avec le nouveau nom (Voir pour une méthode unitaire si les perfs suivent pas)
+        self.fillTableFile()
 
-        rowIndex = self.tableFiles.rowCount()
-        self.tableFiles.setRowCount(rowIndex + 1)
-
-        # Colonne chemin filepath
-        self.tableFiles.setItem(rowIndex, 0, QTableWidgetItem(filePath))
-
-        # Colonne ancien nom
-        textEdit = widgetUtils.createScribitusQTextEdit()
-        textEdit.append(file.name)
-        self.tableFiles.setCellWidget(rowIndex, 1, textEdit)
-
-        # Colonne nouveau nom
-        textEdit = QTextEdit()
-        textEdit.append(file.newName)
-        self.tableFiles.setCellWidget(rowIndex, 2, textEdit)
-
-        self.tableFiles.resizeColumnsToContents()
-        self.tableFiles.clearFocus()
 
     def deleteFile(self):
         selected = self.tableFiles.selectedIndexes()

@@ -1,3 +1,4 @@
+# coding=utf-8
 from PySide.QtCore import *
 from PySide.QtGui import *
 
@@ -37,7 +38,7 @@ def createMessageBoxOuiNon(text, title):
 
 
 # Retourne la liste de tous les index des lignes selectionne
-def getListRowIndex(table: QTableWidget):
+def getListRowIndex(table):
     selected = table.selectedIndexes()
     listLigne = []
     for index in selected:
