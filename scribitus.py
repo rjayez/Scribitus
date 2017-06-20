@@ -9,6 +9,7 @@ from mainwindow import Ui_MainWindow
 from rule import *
 from widgetUtils import *
 import sys
+import os
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -52,24 +53,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         selectedColor = self.listCouleur.itemData(self.listCouleur.currentIndex())
 
         # Recuperation des informations selon le radio selectionne
-        ruleType = ""
-        position = 0
-        elementAjout = ""
-        elementSuppression = ""
+        rule = None
         if self.radioAdd.isChecked():
-            ruleType = TypeRule.ADD
-            elementAjout = self.addText.text()
+            position = 0
+            if self.radioBegin.isChecked():
+                position = 0
+            if self.radioEnd.isChecked():
+                position = sys.maxsize
+            if self.radioPosition.isChecked():
+                position = self.spinBoxPosition.value()
+            rule = AddRule(selectedColor, self.addText.text(), position)
 
         if self.radioDelete.isChecked():
-            ruleType = TypeRule.DELETE
-            elementSuppression = self.deleteText.text()
+            rule = DeleteRule(selectedColor, self.deleteText.text())
 
         if self.radioReplace.isChecked():
-            ruleType = TypeRule.REPLACE
-            elementSuppression = self.replaceTextFirst.text()
-            elementAjout = self.replaceTextBy.text()
+            rule = ReplaceRule(selectedColor, self.replaceTextBy.text(), self.replaceTextFirst.text())
 
-        rule = Rule(ruleType, selectedColor, elementAjout, elementSuppression, position)
+
         self.listRules.append(rule)
 
         # Ajout ligne dans le tableau
@@ -88,6 +89,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # self.tableRules.setCellWidget(rowIndex, 1, textEdit)
 
         self.tableRules.resizeColumnsToContents()
+
+        self.fillTableFile()
 
     # Suppression de règle avec message box de confirmation
     def deleteRule(self):
@@ -123,6 +126,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     self.listRules[row - 1], self.listRules[row] = self.listRules[row], self.listRules[row - 1]  # Swap
                     swapRow = False
 
+        self.fillTableFile()
+
     def downRule(self):
         selectedItem = self.tableRules.selectedItems()
         swapRow = True
@@ -141,8 +146,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     self.listRules[row + 1], self.listRules[row] = self.listRules[row], self.listRules[row + 1]  # Swap
                     swapRow = False
 
+        self.fillTableFile()
+
     def fillTableFile(self):
-        self.tableFiles.clear()
+        # Reinitialisation du tableau
+        self.tableFiles.clearContents()
+        self.tableFiles.setRowCount(0)
+
         for file in self.listFiles:
             rowIndex = self.tableFiles.rowCount()
             self.tableFiles.setRowCount(rowIndex + 1)
@@ -152,17 +162,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             # Colonne ancien nom
             textEdit = widgetUtils.createScribitusQTextEdit()
-            textEdit.append(file.name)
+            textEdit.append(file.getFilename())
             self.tableFiles.setCellWidget(rowIndex, 1, textEdit)
 
             # Colonne nouveau nom
-            newFileName = self.applyRules(file.name)
+            newName = self.applyRules(file.name)
 
-            textEdit = QTextEdit()
-            textEdit.append(newFileName)
+            textEdit = widgetUtils.createScribitusQTextEdit()
+            textEdit.append(newName + file.extension)
             self.tableFiles.setCellWidget(rowIndex, 2, textEdit)
+            self.tableFiles.resizeColumnsToContents()
 
-        self.tableFiles.resizeColumnsToContents()
         self.tableFiles.clearFocus()
 
     # Applique la liste des régles sur le nom de fichier
@@ -171,6 +181,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         nouveauNom = nomFichier
         for rule in self.listRules:
             nouveauNom = rule.applyRule(nouveauNom)
+            print(nouveauNom)
 
         return nouveauNom
 
@@ -178,10 +189,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def addFile(self, filePath):
 
         file = File(filePath)
+        print(file.name)
+        print(file.path)
         self.listFiles.append(file)
         # Rafraichir la liste de fichier avec le nouveau nom (Voir pour une méthode unitaire si les perfs suivent pas)
         self.fillTableFile()
-
 
     def deleteFile(self):
         selected = self.tableFiles.selectedIndexes()
@@ -214,7 +226,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def dragEnterEvent(self, event):
         # Acception du type de drag pour les fichiers (hasUrls)
         if event.mimeData().hasUrls():
-            event.accept()
+            allDragIsFile = True
+            for url in event.mimeData().urls():
+                if not os.path.isfile(url.toLocalFile()):
+                    allDragIsFile = False
+
+            if allDragIsFile:
+                event.accept()
+            else:
+                event.ignore()
         else:
             event.ignore()
 
@@ -222,7 +242,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def dropEvent(self, event):
         if event.mimeData().hasUrls():
             for url in event.mimeData().urls():
-                self.addFile(url.toLocalFile())
+                if os.path.isfile(url.toLocalFile()):
+                    self.addFile(url.toLocalFile())
 
 
 if __name__ == '__main__':

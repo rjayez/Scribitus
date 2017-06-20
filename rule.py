@@ -60,24 +60,24 @@ class Rule:
 
 
 class DeleteRule(Rule):
-    def __init__(self, ruleType, color, elementAjout, elementSuppression="", position=0):
-        Rule.__init__(self, ruleType, color, elementAjout, elementSuppression, position)
+    def __init__(self, color, elementSuppression):
+        Rule.__init__(self, TypeRule.DELETE, color, "", elementSuppression)
 
     def applyRule(self, nomFichier):
         return str(nomFichier).replace(self.elementSuppression, '')
 
 
 class AddRule(Rule):
-    def __init__(self, ruleType, color, elementAjout, elementSuppression="", position=0):
-        Rule.__init__(self, ruleType, color, elementAjout, elementSuppression, position)
+    def __init__(self, color, elementAjout, position=0):
+        Rule.__init__(self, TypeRule.ADD, color, elementAjout, position=position)
 
     def applyRule(self, nomFichier):
         return [nomFichier].insert(self.position, self.elementAjout)
 
 
 class ReplaceRule(Rule):
-    def __init__(self, ruleType, color, elementAjout, elementSuppression="", position=0):
-        Rule.__init__(self, ruleType, color, elementAjout, elementSuppression, position)
+    def __init__(self, color, elementAjout, elementSuppression):
+        Rule.__init__(self, TypeRule.REPLACE, color, elementAjout, elementSuppression)
 
     def applyRule(self, nomFichier):
         return nomFichier.replace(self.elementSuppression, self.elementAjout)

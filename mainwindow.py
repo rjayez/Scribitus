@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'mainWindow.ui'
+# Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Fri Jun 16 20:47:09 2017
+# Created: Tue Jun 20 14:26:57 2017
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -27,45 +27,45 @@ class Ui_MainWindow(object):
         self.groupBoxRules.setFlat(False)
         self.groupBoxRules.setObjectName("groupBoxRules")
         self.radioDelete = QtGui.QRadioButton(self.groupBoxRules)
-        self.radioDelete.setGeometry(QtCore.QRect(30, 70, 82, 17))
+        self.radioDelete.setGeometry(QtCore.QRect(30, 50, 82, 17))
         self.radioDelete.setChecked(True)
         self.radioDelete.setObjectName("radioDelete")
         self.radioReplace = QtGui.QRadioButton(self.groupBoxRules)
-        self.radioReplace.setGeometry(QtCore.QRect(30, 120, 82, 17))
+        self.radioReplace.setGeometry(QtCore.QRect(30, 100, 82, 17))
         self.radioReplace.setObjectName("radioReplace")
         self.deleteText = QtGui.QLineEdit(self.groupBoxRules)
-        self.deleteText.setGeometry(QtCore.QRect(130, 70, 351, 20))
+        self.deleteText.setGeometry(QtCore.QRect(130, 50, 351, 20))
         self.deleteText.setAcceptDrops(False)
         self.deleteText.setObjectName("deleteText")
         self.replaceTextFirst = QtGui.QLineEdit(self.groupBoxRules)
-        self.replaceTextFirst.setGeometry(QtCore.QRect(130, 120, 351, 20))
+        self.replaceTextFirst.setGeometry(QtCore.QRect(130, 100, 351, 20))
         self.replaceTextFirst.setAcceptDrops(False)
         self.replaceTextFirst.setObjectName("replaceTextFirst")
         self.replaceTextBy = QtGui.QLineEdit(self.groupBoxRules)
-        self.replaceTextBy.setGeometry(QtCore.QRect(130, 150, 351, 20))
+        self.replaceTextBy.setGeometry(QtCore.QRect(130, 130, 351, 20))
         self.replaceTextBy.setAcceptDrops(False)
         self.replaceTextBy.setObjectName("replaceTextBy")
         self.label_2 = QtGui.QLabel(self.groupBoxRules)
-        self.label_2.setGeometry(QtCore.QRect(80, 150, 47, 13))
+        self.label_2.setGeometry(QtCore.QRect(80, 130, 47, 13))
         self.label_2.setObjectName("label_2")
         self.checkBox = QtGui.QCheckBox(self.groupBoxRules)
         self.checkBox.setEnabled(False)
-        self.checkBox.setGeometry(QtCore.QRect(140, 30, 241, 17))
+        self.checkBox.setGeometry(QtCore.QRect(130, 20, 241, 17))
         self.checkBox.setObjectName("checkBox")
         self.radioAdd = QtGui.QRadioButton(self.groupBoxRules)
-        self.radioAdd.setGeometry(QtCore.QRect(30, 210, 82, 17))
+        self.radioAdd.setGeometry(QtCore.QRect(30, 190, 82, 17))
         self.radioAdd.setObjectName("radioAdd")
         self.listCouleur = QtGui.QComboBox(self.groupBoxRules)
-        self.listCouleur.setGeometry(QtCore.QRect(130, 300, 351, 22))
+        self.listCouleur.setGeometry(QtCore.QRect(130, 280, 351, 22))
         self.listCouleur.setObjectName("listCouleur")
         self.label_5 = QtGui.QLabel(self.groupBoxRules)
-        self.label_5.setGeometry(QtCore.QRect(60, 300, 47, 13))
+        self.label_5.setGeometry(QtCore.QRect(60, 280, 47, 13))
         self.label_5.setObjectName("label_5")
         self.buttonRule = QtGui.QPushButton(self.groupBoxRules)
-        self.buttonRule.setGeometry(QtCore.QRect(120, 430, 211, 23))
+        self.buttonRule.setGeometry(QtCore.QRect(190, 320, 211, 23))
         self.buttonRule.setObjectName("buttonRule")
         self.groupBox_2 = QtGui.QGroupBox(self.groupBoxRules)
-        self.groupBox_2.setGeometry(QtCore.QRect(120, 200, 371, 91))
+        self.groupBox_2.setGeometry(QtCore.QRect(120, 180, 371, 91))
         self.groupBox_2.setAutoFillBackground(False)
         self.groupBox_2.setTitle("")
         self.groupBox_2.setFlat(False)
@@ -132,6 +132,9 @@ class Ui_MainWindow(object):
                         QtGui.QIcon.Off)
         self.btnDeleteFile.setIcon(icon1)
         self.btnDeleteFile.setObjectName("btnDeleteFile")
+        self.btnRename = QtGui.QPushButton(self.groupBoxTableFile)
+        self.btnRename.setGeometry(QtCore.QRect(210, 280, 221, 23))
+        self.btnRename.setObjectName("btnRename")
         self.groupBoxTableRule = QtGui.QGroupBox(self.centralwidget)
         self.groupBoxTableRule.setGeometry(QtCore.QRect(20, 10, 681, 201))
         self.groupBoxTableRule.setObjectName("groupBoxTableRule")
@@ -235,6 +238,8 @@ class Ui_MainWindow(object):
             QtGui.QApplication.translate("MainWindow", "Nom fichier", None, QtGui.QApplication.UnicodeUTF8))
         self.tableFiles.horizontalHeaderItem(2).setText(
             QtGui.QApplication.translate("MainWindow", "Nouveau nom fichier", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnRename.setText(
+            QtGui.QApplication.translate("MainWindow", "Renommer fichier", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBoxTableRule.setTitle(
             QtGui.QApplication.translate("MainWindow", "Liste régles", None, QtGui.QApplication.UnicodeUTF8))
         self.tableRules.horizontalHeaderItem(0).setText(
