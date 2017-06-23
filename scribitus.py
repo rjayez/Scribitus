@@ -70,7 +70,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.radioReplace.isChecked():
             rule = ReplaceRule(selectedColor, self.replaceTextBy.text(), self.replaceTextFirst.text())
 
-
         self.listRules.append(rule)
 
         # Ajout ligne dans le tableau
