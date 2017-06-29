@@ -1,5 +1,6 @@
 from os.path import basename
 import re
+from surligneur import *
 
 
 class File:
@@ -30,6 +31,9 @@ class File:
         newName = name
         for rule in listRegle:
             newName = rule.applyRule(newName)
-            for match in re.finditer(rule.elementAjout, newName)
-
-            for match in re.finditer(rule.elementSuppression, newName)
+            for match in re.finditer(rule.elementAjout, newName):
+                surligneur = Surligneur(match.start(), match.end(), rule.color)
+                insertSurligneur(self.listSurligneurNomNouveau, surligneur)
+            for match in re.finditer(rule.elementSuppression, newName):
+                surligneur = Surligneur(match.start(), match.end(), rule.color)
+                insertSurligneur(self.listSurligneurNomActuel, surligneur)
