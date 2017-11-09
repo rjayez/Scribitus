@@ -17,6 +17,30 @@ def createScribitusQTextEdit():
     return textEdit
 
 
+# Applique le formatage des surligneur sur un nom de fichier
+def applySurligneur(nomFichier, listSurligneur):
+    debutBalise = "<span style=\"background-color:%s;\">"
+    finBalise = "</span>"
+
+    nomAvecSurligneur = ""
+    indexNom = 0
+
+    if len(listSurligneur) is 0:
+        return nomFichier
+
+    for surligneur in listSurligneur:
+        print
+        "indexNom %d indexDebut %d indexFin %d" % (indexNom, surligneur.indexDebut, surligneur.indexFin)
+        nomAvecSurligneur += nomFichier[indexNom:surligneur.indexDebut]
+        nomAvecSurligneur += (debutBalise % surligneur.color.hex)
+        nomAvecSurligneur += nomFichier[surligneur.indexDebut:surligneur.indexFin]
+        nomAvecSurligneur += finBalise
+        indexNom = surligneur.indexFin
+
+    nomAvecSurligneur += nomFichier[indexNom:]
+    return nomAvecSurligneur
+
+
 # Renvoie un QTableWidgetItem avec un userData de set
 def createTableItem(text, data):
     item = QTableWidgetItem(text)

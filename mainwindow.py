@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Tue Jun 20 14:26:57 2017
+# Created: Mon Nov 06 22:15:55 2017
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -233,11 +233,11 @@ class Ui_MainWindow(object):
         self.tableFiles.setToolTip(QtGui.QApplication.translate("MainWindow", "Glisser un/des fichier(s)", None,
                                                                 QtGui.QApplication.UnicodeUTF8))
         self.tableFiles.horizontalHeaderItem(0).setText(
-            QtGui.QApplication.translate("MainWindow", "Chemin", None, QtGui.QApplication.UnicodeUTF8))
-        self.tableFiles.horizontalHeaderItem(1).setText(
             QtGui.QApplication.translate("MainWindow", "Nom fichier", None, QtGui.QApplication.UnicodeUTF8))
-        self.tableFiles.horizontalHeaderItem(2).setText(
+        self.tableFiles.horizontalHeaderItem(1).setText(
             QtGui.QApplication.translate("MainWindow", "Nouveau nom fichier", None, QtGui.QApplication.UnicodeUTF8))
+        self.tableFiles.horizontalHeaderItem(2).setText(
+            QtGui.QApplication.translate("MainWindow", "Chemin", None, QtGui.QApplication.UnicodeUTF8))
         self.btnRename.setText(
             QtGui.QApplication.translate("MainWindow", "Renommer fichier", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBoxTableRule.setTitle(

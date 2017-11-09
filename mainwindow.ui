@@ -357,17 +357,17 @@
               </attribute>
               <column>
                   <property name="text">
-                      <string>Chemin</string>
-                  </property>
-              </column>
-              <column>
-                  <property name="text">
                       <string>Nom fichier</string>
                   </property>
               </column>
               <column>
                   <property name="text">
                       <string>Nouveau nom fichier</string>
+                  </property>
+              </column>
+              <column>
+                  <property name="text">
+                      <string>Chemin</string>
                   </property>
               </column>
           </widget>

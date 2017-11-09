@@ -31,6 +31,21 @@ class ColorRule:
     colors = [RED, GREEN, BLUE, YELLOW, GREY, PINK, PURPLE]
 
 
+# Couleur regex101 : vert #c6e99d rouge #f5aba5
+#  orange #ffbf6d
+# bleu #c1cbeb
+# vert pale #d7fde3
+# vert fluo #e3ffac
+# rose violet #e88dee
+# vert caci #cfdd67
+# rose #ffacc0
+# bleu #84d6ee
+# bleu fonce #c1cbeb
+# bleu cyan #84d6ee
+# gris bleu #c1cbeb
+###
+
+
 class Rule:
     ruleType = ""
     position = 0
@@ -51,7 +66,7 @@ class Rule:
         # sys.maxint
         typeDescription = {TypeRule.REPLACE: "Remplace %s par %s" % (self.elementSuppression, self.elementAjout),
                            TypeRule.DELETE: "Supprime %s" % self.elementSuppression,
-                           TypeRule.ADD: "Ajout %s " % self.elementAjout}
+                           TypeRule.ADD: "Ajoute %s " % self.elementAjout}
 
         return typeDescription[self.ruleType]
 
@@ -72,7 +87,7 @@ class AddRule(Rule):
         Rule.__init__(self, TypeRule.ADD, color, elementAjout, position=position)
 
     def applyRule(self, nomFichier):
-        return [nomFichier].insert(self.position, self.elementAjout)
+        return nomFichier[:self.position] + self.elementAjout + nomFichier[self.position:]
 
 
 class ReplaceRule(Rule):

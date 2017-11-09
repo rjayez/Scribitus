@@ -3,13 +3,14 @@
 from PySide.QtCore import *
 from PySide.QtGui import *
 
-import widgetUtils
-from file import *
-from mainwindow import Ui_MainWindow
-from rule import *
-from widgetUtils import *
 import sys
 import os
+
+from mainwindow import Ui_MainWindow
+import widgetUtils
+import surligneur
+from file import *
+from rule import *
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -80,11 +81,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tableRules.setRowCount(rowIndex + 1)
 
         # Colonne de couleur
-        item = createTableItem(rule.color.name, rule)
+        item = widgetUtils.createTableItem(rule.color.name, rule)
         item.setBackground(QBrush(QColor(rule.color.hex)))
 
         self.tableRules.setItem(rowIndex, 0, item)
-        self.tableRules.setItem(rowIndex, 1, createTableItem(rule.description, rule))
+        self.tableRules.setItem(rowIndex, 1, widgetUtils.createTableItem(rule.description, rule))
         # self.tableRules.setCellWidget(rowIndex, 1, textEdit)
 
         self.tableRules.resizeColumnsToContents()
@@ -98,7 +99,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         listLigne = list(set(listLigne))  # Elimine les doublons
 
         if len(listLigne) > 0:
-            messageBox = createMessageBoxOuiNon("Etes vous sur de supprimer cette ligne ?", "Suppression")
+            messageBox = widgetUtils.createMessageBoxOuiNon("Etes vous sur de supprimer cette ligne ?", "Suppression")
             response = messageBox.exec_()
             if response == QMessageBox.Yes:
                 # List à l'envers pour supprimer correctement les lignes du tableaux
@@ -147,6 +148,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.fillTableFile()
 
+    # Methode pour mettre a jour la liste des fichiers avec l'application des regles
     def fillTableFile(self):
         # Reinitialisation du tableau
         self.tableFiles.clearContents()
@@ -156,21 +158,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             rowIndex = self.tableFiles.rowCount()
             self.tableFiles.setRowCount(rowIndex + 1)
 
-            # Colonne chemin filepath
-            self.tableFiles.setItem(rowIndex, 0, QTableWidgetItem(file.path))
+            listSurligneurNomActuel, listSurligneurNomNouveau = surligneur.creerListSurligneur(file.name,
+                                                                                               self.listRules)
 
             # Colonne ancien nom
             textEdit = widgetUtils.createScribitusQTextEdit()
             textEdit.append(file.getFilename())
-            self.tableFiles.setCellWidget(rowIndex, 1, textEdit)
+            self.tableFiles.setCellWidget(rowIndex, 0, textEdit)
 
             # Colonne nouveau nom
-            newName = self.applyRules(file.name)
+            file.newName = self.applyRules(file.name)
 
+            newNameColored = widgetUtils.applySurligneur(file.newName, listSurligneurNomNouveau)
             textEdit = widgetUtils.createScribitusQTextEdit()
-            textEdit.append(newName + file.extension)
-            self.tableFiles.setCellWidget(rowIndex, 2, textEdit)
+            textEdit.append(newNameColored + file.extension)
+            self.tableFiles.setCellWidget(rowIndex, 1, textEdit)
             self.tableFiles.resizeColumnsToContents()
+
+            # Colonne chemin filepath
+            self.tableFiles.setItem(rowIndex, 2, QTableWidgetItem(file.path))
 
         self.tableFiles.clearFocus()
 
@@ -203,7 +209,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         listLigne = list(set(listLigne))  # Elimine les doublons
 
         if len(listLigne) > 0:
-            messageBox = createMessageBoxOuiNon("Etes vous sur de supprimer cette/ces ligne(s) ?", "Suppression")
+            messageBox = widgetUtils.createMessageBoxOuiNon("Etes vous sur de supprimer cette/ces ligne(s) ?",
+                                                            "Suppression")
             response = messageBox.exec_()
             if response == QMessageBox.Yes:
                 # List à l'envers pour supprimer correctement les lignes du tableaux
