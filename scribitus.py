@@ -94,7 +94,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     # Suppression de règle avec message box de confirmation
     def deleteRule(self):
-        listLigne = self.getListRowIndex()
+        listLigne = widgetUtils.getListRowIndex(self.tableRules)
 
         listLigne = list(set(listLigne))  # Elimine les doublons
 
