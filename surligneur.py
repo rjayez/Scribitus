@@ -107,7 +107,7 @@ def insertSurligneur(listSurligneur, surligneur):
     if len(listSurligneur) is 0:
         listSurligneur.append(surligneur)
         return listSurligneur
-
+    # TODO Verifier tous les cas (faire schema)
     listASupprimer = []
     print("surligneur a inserer %s " % surligneur.toString())
     for i, s in enumerate(listSurligneur):
@@ -119,13 +119,21 @@ def insertSurligneur(listSurligneur, surligneur):
         # nouveau surligneur englobe le surligneur de la liste -> supprimer
         if surligneur.indexDebut <= s.indexDebut and surligneur.indexFin >= s.indexFin:
             listASupprimer.append(s)
+            continue
+
+        # nouveau surligneur chevauche au debut le surligneur de la liste -> modification
+        if surligneur.indexDebut <= s.indexDebut < surligneur.indexFin < s.indexFin:
+            s.indexDebut = surligneur.indexFin
             listSurligneur.insert(i, surligneur)
             break
 
-        # nouveau surligneur chevauche au debut le surligneur de la liste -> modification
-        if s.indexDebut < surligneur.indexFin < s.indexFin:
-            s.indexDebut = surligneur.indexFin
-            continue
+        # nouveau surligneur a l'interieur du surligneur de la liste -> split le surligneur en 2
+        if s.indexDebut > surligneur.indexDebut and surligneur.indexFin < s.indexFin:
+            s.indexFin = surligneur.indexDebut
+            listSurligneur.insert(i + 1, surligneur)  # Insertion apres sur le surligneur actuelle de la liste
+            s2 = Surligneur(surligneur.indexFin, s.indexFin, s.color)
+            listSurligneur.insert(i + 2, s2)  # Insertion de la seconde parti du surligneur apres
+            break
 
         # nouveau surligneur chevauche a la fin le surligneur de la liste -> modification
         if s.indexFin > surligneur.indexDebut > s.indexDebut:
