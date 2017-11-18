@@ -24,33 +24,13 @@ def creerListSurligneur(name, listRegle):
 
     newName = name
 
-    # Creer liste surligneur
-    # for rule in listRegle:
-    #
-    #     if rule.ruleType is TypeRule.ADD:
-    #         surligneur = Surligneur(rule.position, rule.position + len(rule.elementAjout), rule.color)
-    #         print
-    #         surligneur.toString()
-    #         inserSurligneurAjout(listSurligneurNomNouveau, surligneur)
-    #     else:
-    #         for match in re.finditer(rule.elementAjout, newName):
-    #             surligneur = Surligneur(match.start(), match.end(), rule.color)
-    #             print
-    #             surligneur.toString()
-    #             listSurligneurNomNouveau = insertSurligneur(listSurligneurNomNouveau, surligneur)
-    #         for match in re.finditer(rule.elementSuppression, newName):
-    #             surligneur = Surligneur(match.start(), match.end(), rule.color)
-    #             print
-    #             surligneur.toString()
-    #             listSurligneurNomActuel = insertSurligneur(listSurligneurNomActuel, surligneur)
-
     listReglePourSurligneur = []
     for rule in listRegle:
 
         if rule.ruleType is TypeRule.REPLACE:
-            newName = rule.applyRule(newName)
-            listReglePourSurligneur.append(rule)
-            #
+            if newName is not rule.applyRule(newName):
+                newName = rule.applyRule(newName)
+                listReglePourSurligneur.append(rule)
             continue
         elif rule.ruleType is TypeRule.ADD:
             # Si il y a une regle Replace precedement alors appliquer les surligneurs avant la nouvelle regle
@@ -60,8 +40,10 @@ def creerListSurligneur(name, listRegle):
                                                                                        newName)
             listReglePourSurligneur = []
             # Ajout => surligneur pour le nouveau nom
-            surligneur = Surligneur(rule.position, rule.position + len(rule.elementAjout), rule.color)
+            if rule.position > len(newName):
+                rule.position = len(newName)
             newName = rule.applyRule(newName)
+            surligneur = Surligneur(rule.position, rule.position + len(rule.elementAjout), rule.color)
             listSurligneurNomNouveau = insertSurligneurAjout(listSurligneurNomNouveau, surligneur)
         elif rule.ruleType is TypeRule.DELETE:
             # Si il y a une regle Replace precedement alors appliquer les surligneurs avant la nouvelle regle
@@ -79,12 +61,6 @@ def creerListSurligneur(name, listRegle):
     listSurligneurNomActuel, listSurligneurNomNouveau = creerSurligneurReplace(listReglePourSurligneur,
                                                                                listSurligneurNomActuel,
                                                                                listSurligneurNomNouveau, newName)
-
-    print
-    "list nouveau"
-    for s in listSurligneurNomNouveau:
-        print
-        s.toString()
 
     return listSurligneurNomActuel, listSurligneurNomNouveau
 
@@ -111,35 +87,41 @@ def insertSurligneur(listSurligneur, surligneur):
     listASupprimer = []
     print("surligneur a inserer %s " % surligneur.toString())
     for i, s in enumerate(listSurligneur):
+
+        # nouveau surligneur apres le surligneur actuel -> surligneur suivant de la liste
+        if s.indexFin <= surligneur.indexDebut:
+            continue
+
         # nouveau surligneur avant le surligneur de la liste -> inserer avant
         if surligneur.indexFin <= s.indexDebut:
             listSurligneur.insert(i, surligneur)
             break
 
-        # nouveau surligneur englobe le surligneur de la liste -> supprimer
-        if surligneur.indexDebut <= s.indexDebut and surligneur.indexFin >= s.indexFin:
-            listASupprimer.append(s)
+        # nouveau surligneur chevauche a la fin le surligneur de la liste -> modification
+        if s.indexDebut < surligneur.indexDebut < s.indexFin <= surligneur.indexFin:
+            s.indexFin = surligneur.indexDebut
             continue
 
-        # nouveau surligneur chevauche au debut le surligneur de la liste -> modification
+        # nouveau surligneur chevauche au debut le surligneur de la liste -> modification et insertion
         if surligneur.indexDebut <= s.indexDebut < surligneur.indexFin < s.indexFin:
             s.indexDebut = surligneur.indexFin
             listSurligneur.insert(i, surligneur)
             break
 
+        # nouveau surligneur englobe le surligneur de la liste -> supprimer
+        if surligneur.indexDebut <= s.indexDebut and s.indexFin <= surligneur.indexFin:
+            listASupprimer.append(s)
+            continue
+
         # nouveau surligneur a l'interieur du surligneur de la liste -> split le surligneur en 2
-        if s.indexDebut > surligneur.indexDebut and surligneur.indexFin < s.indexFin:
+        if s.indexDebut < surligneur.indexDebut and surligneur.indexFin < s.indexFin:
+            s2 = Surligneur(surligneur.indexFin, s.indexFin, s.color)
             s.indexFin = surligneur.indexDebut
             listSurligneur.insert(i + 1, surligneur)  # Insertion apres sur le surligneur actuelle de la liste
-            s2 = Surligneur(surligneur.indexFin, s.indexFin, s.color)
             listSurligneur.insert(i + 2, s2)  # Insertion de la seconde parti du surligneur apres
             break
 
-        # nouveau surligneur chevauche a la fin le surligneur de la liste -> modification
-        if s.indexFin > surligneur.indexDebut > s.indexDebut:
-            s.indexFin = surligneur.indexDebut
-            continue
-    else:
+    else:  # Si aucun break n'a ete declenche alors on ajoute le surligneur a la fin de la liste
         listSurligneur.append(surligneur)  # Ajoute le surligneur a la fin si
 
     # Supprimer les surligneur

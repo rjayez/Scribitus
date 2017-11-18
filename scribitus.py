@@ -106,6 +106,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 for indexRow in reversed(listLigne):
                     self.tableRules.removeRow(indexRow)
                     del self.listRules[indexRow]
+        #TODO reapliquer les regles
 
     def upRule(self):
 
