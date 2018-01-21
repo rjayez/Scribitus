@@ -1,8 +1,14 @@
+# coding=utf-8
+
+import sys
+
+
 class TypeRule:
     def __init__(self):
         pass
 
     ADD = "add"
+    ADD_END = "add_end"
     REPLACE = "replace"
     DELETE = "delete"
 
@@ -11,9 +17,9 @@ class Color:
     hex = ""
     name = ""
 
-    def __init__(self, name, hex):
+    def __init__(self, name, hexColor):
         self.name = name
-        self.hex = hex
+        self.hex = hexColor
 
 
 class ColorRule:
@@ -66,7 +72,8 @@ class Rule:
         # sys.maxint
         typeDescription = {TypeRule.REPLACE: "Remplace %s par %s" % (self.elementSuppression, self.elementAjout),
                            TypeRule.DELETE: "Supprime %s" % self.elementSuppression,
-                           TypeRule.ADD: "Ajoute %s " % self.elementAjout}
+                           TypeRule.ADD: "Ajoute %s " % self.elementAjout,
+                           TypeRule.ADD_END: u"Ajoute %s à la fin" % self.elementAjout}
 
         return typeDescription[self.ruleType]
 
@@ -88,6 +95,14 @@ class AddRule(Rule):
 
     def applyRule(self, nomFichier):
         return nomFichier[:self.position] + self.elementAjout + nomFichier[self.position:]
+
+
+class AddEndRule(Rule):
+    def __init__(self, color, elementAjout):
+        Rule.__init__(self, TypeRule.ADD_END, color, elementAjout, position=sys.maxint)
+
+    def applyRule(self, nomFichier):
+        return nomFichier + self.elementAjout
 
 
 class ReplaceRule(Rule):

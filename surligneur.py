@@ -1,3 +1,5 @@
+# coding=utf-8
+
 import re
 from rule import TypeRule
 
@@ -40,11 +42,21 @@ def creerListSurligneur(name, listRegle):
                                                                                        newName)
             listReglePourSurligneur = []
             # Ajout => surligneur pour le nouveau nom
-            if rule.position > len(newName):
-                rule.position = len(newName)
             newName = rule.applyRule(newName)
             surligneur = Surligneur(rule.position, rule.position + len(rule.elementAjout), rule.color)
             listSurligneurNomNouveau = insertSurligneurAjout(listSurligneurNomNouveau, surligneur)
+        elif rule.ruleType is TypeRule.ADD_END:
+            # Si il y a une regle Replace precedement alors appliquer les surligneurs avant la nouvelle regle
+            listSurligneurNomActuel, listSurligneurNomNouveau = creerSurligneurReplace(listReglePourSurligneur,
+                                                                                       listSurligneurNomActuel,
+                                                                                       listSurligneurNomNouveau,
+                                                                                       newName)
+            listReglePourSurligneur = []
+            # Ajout => surligneur pour le nouveau nom
+            surligneur = Surligneur(len(newName), len(newName) + len(rule.elementAjout), rule.color)
+            newName = rule.applyRule(newName)
+            listSurligneurNomNouveau = insertSurligneurAjout(listSurligneurNomNouveau, surligneur)
+
         elif rule.ruleType is TypeRule.DELETE:
             # Si il y a une regle Replace precedement alors appliquer les surligneurs avant la nouvelle regle
             listSurligneurNomActuel, listSurligneurNomNouveau = creerSurligneurReplace(listReglePourSurligneur,

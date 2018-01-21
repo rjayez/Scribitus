@@ -15,7 +15,8 @@ from rule import *
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     listRules = []
-    listFiles = []
+    listFiles = [File("Resources/Test/tetecoco.txt"), File("Resources/Test/tetetete.txt"),
+                 File("Resources/Test/teazertyuiop.txt")]
 
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -23,6 +24,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.remplirListeCouleur()
         self.assignWidgets()
         self.show()
+
+        # Initialisation de la liste des fichiers et rules pour les tests
+        self.fillTableFile()
 
     def assignWidgets(self):
         self.buttonRule.clicked.connect(self.addRule)
@@ -48,7 +52,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     # Ajoute une regle
     def addRule(self):
 
-        QToolTip.showText(self.mapToGlobal(self.deleteText.pos()), "coucou")
+        # QToolTip.showText(self.mapToGlobal(self.deleteText.pos()), "coucou")
 
         # Create rule object
         selectedColor = self.listCouleur.itemData(self.listCouleur.currentIndex())
@@ -59,11 +63,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             position = 0
             if self.radioBegin.isChecked():
                 position = 0
-            if self.radioEnd.isChecked():
-                position = sys.maxsize
             if self.radioPosition.isChecked():
                 position = self.spinBoxPosition.value()
             rule = AddRule(selectedColor, self.addText.text(), position)
+
+            # Si c'est un ajout à la fin, alors création d'un type de régle spécifique
+            if self.radioEnd.isChecked():
+                rule = AddEndRule(selectedColor, self.addText.text())
 
         if self.radioDelete.isChecked():
             rule = DeleteRule(selectedColor, self.deleteText.text())
@@ -74,9 +80,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.listRules.append(rule)
 
         # Ajout ligne dans le tableau
-        # textEdit = QTextEdit()
-        # textEdit.append("cou<span style=\"background-color:#CCFFD9;\">co</span>u")
-
         rowIndex = self.tableRules.rowCount()
         self.tableRules.setRowCount(rowIndex + 1)
 
@@ -90,6 +93,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.tableRules.resizeColumnsToContents()
 
+        # Affiche la modification des régles dans l'interface
         self.fillTableFile()
 
     # Suppression de règle avec message box de confirmation
@@ -106,7 +110,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 for indexRow in reversed(listLigne):
                     self.tableRules.removeRow(indexRow)
                     del self.listRules[indexRow]
-        #TODO reapliquer les regles
+
+        self.fillTableFile()
 
     def upRule(self):
 
