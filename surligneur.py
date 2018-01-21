@@ -55,7 +55,7 @@ def creerListSurligneur(name, listRegle):
             # Ajout => surligneur pour le nouveau nom
             surligneur = Surligneur(len(newName), len(newName) + len(rule.elementAjout), rule.color)
             newName = rule.applyRule(newName)
-            listSurligneurNomNouveau = insertSurligneurAjout(listSurligneurNomNouveau, surligneur)
+            listSurligneurNomNouveau.append(surligneur)
 
         elif rule.ruleType is TypeRule.DELETE:
             # Si il y a une regle Replace precedement alors appliquer les surligneurs avant la nouvelle regle
@@ -144,16 +144,16 @@ def insertSurligneur(listSurligneur, surligneur):
 
 
 # Insere un surligneur lors d'une regle d'ajout
-def insertSurligneurAjout(listSurligneur, surligneur):
+def insertSurligneurAjout(listSurligneur, nouveauSurligneur):
     surligneurInsere = False
-    largeurSurligneurInsere = surligneur.indexFin - surligneur.indexDebut
+    largeurSurligneurInsere = nouveauSurligneur.indexFin - nouveauSurligneur.indexDebut
     positionAInserer = 0
     listSurligneurSplit = []
 
     surligneurASupprimer = None
 
     if len(listSurligneur) is 0:
-        listSurligneur.append(surligneur)
+        listSurligneur.append(nouveauSurligneur)
         return listSurligneur
 
     for i, s in enumerate(listSurligneur):
@@ -167,18 +167,19 @@ def insertSurligneurAjout(listSurligneur, surligneur):
             continue
 
         # debut du nouveau surligneur dans le surligneur de la liste => split
-        if s.indexDebut < surligneur.indexDebut < s.indexFin:
+        if s.indexDebut < nouveauSurligneur.indexDebut < s.indexFin:
             # Split du surligneur avec creation de 2 nouveau surligneur
             surlLargeur = s.indexFin - s.indexDebut
-            s1 = Surligneur(s.indexDebut, surligneur.indexDebut, s.color)
+            s1 = Surligneur(s.indexDebut, nouveauSurligneur.indexDebut, s.color)
             s1Largeur = s1.indexFin - s1.indexDebut
-            s2 = Surligneur(surligneur.indexFin, surligneur.indexFin + (surlLargeur - s1Largeur), s.color)
+            s2 = Surligneur(nouveauSurligneur.indexFin, nouveauSurligneur.indexFin + (surlLargeur - s1Largeur), s.color)
             listSurligneurSplit.append(s1)
             listSurligneurSplit.append(s2)
             positionAInserer = i
             surligneurInsere = True
             surligneurASupprimer = s
-        elif surligneur.indexDebut <= s.indexDebut:
+        # Nouveau surligneur avant le surligneur de la liste
+        elif nouveauSurligneur.indexDebut <= s.indexDebut:
             positionAInserer = i
             surligneurInsere = True
             s.indexDebut = s.indexDebut + largeurSurligneurInsere
@@ -189,13 +190,12 @@ def insertSurligneurAjout(listSurligneur, surligneur):
 
     if len(listSurligneurSplit) is not 0:
         listSurligneur.insert(positionAInserer, listSurligneurSplit[0])
-        listSurligneur.insert(positionAInserer + 1, surligneur)
+        listSurligneur.insert(positionAInserer + 1, nouveauSurligneur)
         listSurligneur.insert(positionAInserer + 2, listSurligneurSplit[1])
     else:
-        listSurligneur.insert(positionAInserer, surligneur)
+        listSurligneur.insert(positionAInserer, nouveauSurligneur)
 
     return listSurligneur
-
 
 # TODO
 def insertSurligneurSuppression(listSurligneur, surligneur):
