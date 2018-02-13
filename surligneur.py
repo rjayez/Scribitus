@@ -82,15 +82,21 @@ def creerSurligneurReplace(listReglePourSurligneur, listSurligneurNomActuel, lis
         for rule in listReglePourSurligneur:
             for match in re.finditer(rule.elementAjout, newName):
                 surligneur = Surligneur(match.start(), match.end(), rule.color)
-                listSurligneurNomNouveau = insertSurligneur(listSurligneurNomNouveau, surligneur)
+                # Difference de nombre de caracteres entre l'element ajoute et suprimmer pour décaller les
+                # surligneurs en conséquence
+                offset = len(rule.elementAjout) - len(rule.elementSuppression)
+                listSurligneurNomNouveau = insertSurligneur(listSurligneurNomNouveau, surligneur, offset)
             for match in re.finditer(rule.elementSuppression, newName):
                 surligneur = Surligneur(match.start(), match.end(), rule.color)
+                offset = len(rule.elementAjout) - len(rule.elementSuppression) # TODO Verifier si c'est le bon sens
                 listSurligneurNomActuel = insertSurligneur(listSurligneurNomActuel, surligneur)
     return listSurligneurNomActuel, listSurligneurNomNouveau
 
 
 # Insere un nouveau surligneur dans la liste
-def insertSurligneur(listSurligneur, surligneur):
+def insertSurligneur(listSurligneur, surligneur, offset):
+    surligneurInsere = False
+ # TODO Gerer le offset des surligneurs
     # Si liste vide, on ajoute directement
     if len(listSurligneur) is 0:
         listSurligneur.append(surligneur)
@@ -107,7 +113,9 @@ def insertSurligneur(listSurligneur, surligneur):
         # nouveau surligneur avant le surligneur de la liste -> inserer avant
         if surligneur.indexFin <= s.indexDebut:
             listSurligneur.insert(i, surligneur)
-            break
+            surligneurInsere = True
+
+
 
         # nouveau surligneur chevauche a la fin le surligneur de la liste -> modification
         if s.indexDebut < surligneur.indexDebut < s.indexFin <= surligneur.indexFin:
@@ -118,6 +126,7 @@ def insertSurligneur(listSurligneur, surligneur):
         if surligneur.indexDebut <= s.indexDebut < surligneur.indexFin < s.indexFin:
             s.indexDebut = surligneur.indexFin
             listSurligneur.insert(i, surligneur)
+            surligneurInsere = True
             break
 
         # nouveau surligneur englobe le surligneur de la liste -> supprimer
@@ -131,6 +140,7 @@ def insertSurligneur(listSurligneur, surligneur):
             s.indexFin = surligneur.indexDebut
             listSurligneur.insert(i + 1, surligneur)  # Insertion apres sur le surligneur actuelle de la liste
             listSurligneur.insert(i + 2, s2)  # Insertion de la seconde parti du surligneur apres
+            surligneurInsere = True
             break
 
     else:  # Si aucun break n'a ete declenche alors on ajoute le surligneur a la fin de la liste
@@ -196,6 +206,7 @@ def insertSurligneurAjout(listSurligneur, nouveauSurligneur):
         listSurligneur.insert(positionAInserer, nouveauSurligneur)
 
     return listSurligneur
+
 
 # TODO
 def insertSurligneurSuppression(listSurligneur, surligneur):
