@@ -14,9 +14,15 @@ from rule import *
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-    listRules = []
-    listFiles = [File("Resources/Test/tetecoco.txt"), File("Resources/Test/tetetete.txt"),
-                 File("Resources/Test/teazertyuiop.txt")]
+    listRules = [ReplaceRule(color=ColorRule.PINK, elementAjout="1", elementSuppression="a"),
+                 ReplaceRule(color=ColorRule.GREY, elementAjout="2", elementSuppression="b"),
+                 ReplaceRule(color=ColorRule.RED, elementAjout="3", elementSuppression="c"),
+                 ReplaceRule(color=ColorRule.BLUE, elementAjout="tt", elementSuppression="123")
+                 ]
+    # listRules = []
+    # listFiles = [File("Resources/Test/tetecoco.txt"), File("Resources/Test/abcde.txt"),
+    #              File("Resources/Test/teazertyuiop.txt")]
+    listFiles = [File("Resources/Test/abcde.txt")]
 
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -27,6 +33,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # Initialisation de la liste des fichiers et rules pour les tests
         self.fillTableFile()
+        self.fillTableRule()
 
     def assignWidgets(self):
         self.buttonRule.clicked.connect(self.addRule)
@@ -79,21 +86,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.listRules.append(rule)
 
-        # Ajout ligne dans le tableau
-        rowIndex = self.tableRules.rowCount()
-        self.tableRules.setRowCount(rowIndex + 1)
-
-        # Colonne de couleur
-        item = widgetUtils.createTableItem(rule.color.name, rule)
-        item.setBackground(QBrush(QColor(rule.color.hex)))
-
-        self.tableRules.setItem(rowIndex, 0, item)
-        self.tableRules.setItem(rowIndex, 1, widgetUtils.createTableItem(rule.description, rule))
-        # self.tableRules.setCellWidget(rowIndex, 1, textEdit)
-
-        self.tableRules.resizeColumnsToContents()
-
         # Affiche la modification des régles dans l'interface
+        self.fillTableRule()
         self.fillTableFile()
 
     # Suppression de règle avec message box de confirmation
@@ -153,6 +147,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     swapRow = False
 
         self.fillTableFile()
+
+    # Methode pour mettre a jour la liste des fichiers avec l'application des regles
+    def fillTableRule(self):
+        # Reinitialisation du tableau
+        self.tableRules.clearContents()
+        self.tableRules.setRowCount(0)
+
+        for rule in self.listRules:
+            # Ajout ligne dans le tableau
+            rowIndex = self.tableRules.rowCount()
+            self.tableRules.setRowCount(rowIndex + 1)
+
+            # Colonne de couleur
+            item = widgetUtils.createTableItem(rule.color.name, rule)
+            item.setBackground(QBrush(QColor(rule.color.hex)))
+
+            self.tableRules.setItem(rowIndex, 0, item)
+            self.tableRules.setItem(rowIndex, 1, widgetUtils.createTableItem(rule.description, rule))
+            # self.tableRules.setCellWidget(rowIndex, 1, textEdit)
+
+            self.tableRules.resizeColumnsToContents()
 
     # Methode pour mettre a jour la liste des fichiers avec l'application des regles
     def fillTableFile(self):

@@ -29,8 +29,7 @@ def applySurligneur(nomFichier, listSurligneur):
         return nomFichier
 
     for surligneur in listSurligneur:
-        print
-        "indexNom %d indexDebut %d indexFin %d" % (indexNom, surligneur.indexDebut, surligneur.indexFin)
+        print "indexNom %d indexDebut %d indexFin %d" % (indexNom, surligneur.indexDebut, surligneur.indexFin)
         nomAvecSurligneur += nomFichier[indexNom:surligneur.indexDebut]
         nomAvecSurligneur += (debutBalise % surligneur.color.hex)
         nomAvecSurligneur += nomFichier[surligneur.indexDebut:surligneur.indexFin]
