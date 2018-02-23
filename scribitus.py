@@ -1,4 +1,5 @@
-# coding=utf-8
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 from PySide.QtCore import *
 from PySide.QtGui import *
@@ -22,18 +23,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     # listRules = []
     # listFiles = [File("Resources/Test/tetecoco.txt"), File("Resources/Test/abcde.txt"),
     #              File("Resources/Test/teazertyuiop.txt")]
-    listFiles = [File("Resources/Test/abcde.txt")]
+    listFiles = [File("E:/Mes documents/Developpement/Scribitus/Resources/Test/ttde.txt")]
 
     def __init__(self):
         super(MainWindow, self).__init__()
         self.setupUi(self)
         self.remplirListeCouleur()
         self.assignWidgets()
+        self.configureWidgets()
         self.show()
 
         # Initialisation de la liste des fichiers et rules pour les tests
         self.fillTableFile()
         self.fillTableRule()
+
 
     def assignWidgets(self):
         self.buttonRule.clicked.connect(self.addRule)
@@ -45,6 +48,33 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.btnDeleteRule.clicked.connect(self.deleteRule)
         self.btnUpRule.clicked.connect(self.upRule)
         self.btnDownRule.clicked.connect(self.downRule)
+        self.btnRename.clicked.connect(self.renameFile)
+
+    def configureWidgets(self):
+        # Layout pour l'écran
+        gridLayout = QGridLayout()
+        gridLayout.addWidget(self.groupBoxTableRule, 0, 0)
+        gridLayout.addWidget(self.groupBoxRules, 0, 1)
+        gridLayout.addWidget(self.groupBoxTableFile, 1, 0, 1, 2)
+        self.centralwidget.setLayout(gridLayout)
+
+        # Layout pour la liste des règles
+        gridLayout = QGridLayout()
+        gridLayout.addWidget(self.tableRules, 0, 0, 5, 1)
+        gridLayout.addWidget(self.btnDeleteRule, 0, 1)
+        gridLayout.addWidget(self.btnUpRule, 1, 1)
+        gridLayout.addWidget(self.btnDownRule, 2, 1)
+        gridLayout.setRowStretch(0, 100)
+        self.groupBoxTableRule.setLayout(gridLayout)
+
+        # Layout pour la liste des fichiers
+        gridLayout = QGridLayout()
+        gridLayout.addWidget(self.tableFiles, 0, 0, 2, 1)
+        gridLayout.addWidget(self.btnDeleteFile, 0, 1)
+        gridLayout.addWidget(self.btnRename, 2, 0, 1, 2, Qt.AlignHCenter)
+        self.groupBoxTableFile.setLayout(gridLayout)
+
+
 
     # Methodes pour toggle les radio selon quels champs des regles sont édités
     def toggleRadioDelete(self):
@@ -167,7 +197,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.tableRules.setItem(rowIndex, 1, widgetUtils.createTableItem(rule.description, rule))
             # self.tableRules.setCellWidget(rowIndex, 1, textEdit)
 
-            self.tableRules.resizeColumnsToContents()
+        self.tableRules.resizeColumnsToContents()
 
     # Methode pour mettre a jour la liste des fichiers avec l'application des regles
     def fillTableFile(self):
@@ -199,6 +229,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # Colonne chemin filepath
             self.tableFiles.setItem(rowIndex, 2, QTableWidgetItem(file.path))
 
+        self.tableFiles.resizeColumnsToContents()
         self.tableFiles.clearFocus()
 
     # Applique la liste des régles sur le nom de fichier
@@ -238,6 +269,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 for indexRow in reversed(listLigne):
                     self.tableFiles.removeRow(indexRow)
                     del self.listFiles[indexRow]
+
+    def renameFile(self):
+        messageBox = widgetUtils.createMessageBoxOuiNon(
+            u"Etes vous sur de renommer les fichiers avec les régles défini ?",
+            "Renommage")
+        response = messageBox.exec_()
+        if response == QMessageBox.Yes:
+            for file in self.listFiles:
+                print (file.dirpath + file.getFilename())
+                print (file.dirpath + file.getNewFilename())
+                os.rename(file.dirpath + "/" + file.getFilename(),
+                          file.dirpath + "/" + file.getNewFilename())
 
     # Remplir liste de couleurs
     def remplirListeCouleur(self):

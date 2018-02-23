@@ -6,10 +6,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-       <width>1251</width>
-       <height>613</height>
+       <width>1447</width>
+       <height>925</height>
    </rect>
   </property>
+     <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>1</horstretch>
+             <verstretch>0</verstretch>
+         </sizepolicy>
+     </property>
      <property name="mouseTracking">
          <bool>true</bool>
      </property>
@@ -26,6 +32,9 @@
          <iconset>
              <normaloff>Resources/scribitus_burned.png</normaloff>Resources/scribitus_burned.png
          </iconset>
+     </property>
+     <property name="autoFillBackground">
+         <bool>true</bool>
   </property>
      <property name="documentMode">
          <bool>true</bool>
@@ -34,11 +43,26 @@
       <widget class="QGroupBox" name="groupBoxRules">
           <property name="geometry">
               <rect>
-                  <x>720</x>
-                  <y>10</y>
-                  <width>511</width>
-                  <height>491</height>
+                  <x>760</x>
+                  <y>30</y>
+                  <width>521</width>
+                  <height>389</height>
               </rect>
+          </property>
+          <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+              </sizepolicy>
+          </property>
+          <property name="minimumSize">
+              <size>
+                  <width>521</width>
+                  <height>389</height>
+              </size>
+          </property>
+          <property name="autoFillBackground">
+              <bool>true</bool>
           </property>
           <property name="title">
               <string>Régles</string>
@@ -276,24 +300,250 @@
                   </property>
               </widget>
           </widget>
+          <zorder>radioDelete</zorder>
+          <zorder>radioReplace</zorder>
+          <zorder>deleteText</zorder>
+          <zorder>replaceTextFirst</zorder>
+          <zorder>replaceTextBy</zorder>
+          <zorder>label_2</zorder>
+          <zorder>checkBox</zorder>
+          <zorder>radioAdd</zorder>
+          <zorder>listCouleur</zorder>
+          <zorder>label_5</zorder>
+          <zorder>buttonRule</zorder>
+          <zorder>groupBox_2</zorder>
+          <zorder>verticalSpacer</zorder>
+      </widget>
+      <widget class="QGroupBox" name="groupBoxTableRule">
+          <property name="geometry">
+              <rect>
+                  <x>20</x>
+                  <y>30</y>
+                  <width>711</width>
+                  <height>391</height>
+              </rect>
+          </property>
+          <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+              </sizepolicy>
+          </property>
+          <property name="minimumSize">
+              <size>
+                  <width>711</width>
+                  <height>391</height>
+              </size>
+          </property>
+          <property name="autoFillBackground">
+              <bool>true</bool>
+          </property>
+          <property name="title">
+              <string>Liste régles</string>
+          </property>
+          <property name="flat">
+              <bool>false</bool>
+          </property>
+          <widget class="QTableWidget" name="tableRules">
+              <property name="geometry">
+                  <rect>
+                      <x>10</x>
+                      <y>20</y>
+                      <width>611</width>
+                      <height>351</height>
+                  </rect>
+              </property>
+              <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                  </sizepolicy>
+              </property>
+              <property name="acceptDrops">
+                  <bool>false</bool>
+              </property>
+              <property name="autoFillBackground">
+                  <bool>true</bool>
+              </property>
+              <property name="styleSheet">
+                  <string notr="true"/>
+              </property>
+              <property name="frameShadow">
+                  <enum>QFrame::Sunken</enum>
+              </property>
+              <property name="editTriggers">
+                  <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="dragDropMode">
+                  <enum>QAbstractItemView::NoDragDrop</enum>
+              </property>
+              <property name="selectionMode">
+                  <enum>QAbstractItemView::SingleSelection</enum>
+              </property>
+              <property name="selectionBehavior">
+                  <enum>QAbstractItemView::SelectRows</enum>
+              </property>
+              <property name="showGrid">
+                  <bool>true</bool>
+              </property>
+              <attribute name="horizontalHeaderHighlightSections">
+                  <bool>false</bool>
+              </attribute>
+              <attribute name="horizontalHeaderStretchLastSection">
+                  <bool>true</bool>
+              </attribute>
+              <attribute name="verticalHeaderHighlightSections">
+                  <bool>true</bool>
+              </attribute>
+              <column>
+                  <property name="text">
+                      <string>Couleur</string>
+                  </property>
+              </column>
+              <column>
+                  <property name="text">
+                      <string>Régle</string>
+                  </property>
+              </column>
+          </widget>
+          <widget class="QPushButton" name="btnDownRule">
+              <property name="enabled">
+                  <bool>true</bool>
+              </property>
+              <property name="geometry">
+                  <rect>
+                      <x>630</x>
+                      <y>130</y>
+                      <width>41</width>
+                      <height>31</height>
+                  </rect>
+              </property>
+              <property name="minimumSize">
+                  <size>
+                      <width>41</width>
+                      <height>31</height>
+                  </size>
+              </property>
+              <property name="maximumSize">
+                  <size>
+                      <width>41</width>
+                      <height>31</height>
+                  </size>
+              </property>
+              <property name="text">
+                  <string/>
+              </property>
+              <property name="icon">
+                  <iconset>
+                      <normaloff>Resources/fleche_bas.png</normaloff>Resources/fleche_bas.png
+                  </iconset>
+              </property>
+          </widget>
+          <widget class="QPushButton" name="btnUpRule">
+              <property name="enabled">
+                  <bool>true</bool>
+              </property>
+              <property name="geometry">
+                  <rect>
+                      <x>630</x>
+                      <y>90</y>
+                      <width>41</width>
+                      <height>31</height>
+                  </rect>
+              </property>
+              <property name="minimumSize">
+                  <size>
+                      <width>41</width>
+                      <height>31</height>
+                  </size>
+              </property>
+              <property name="maximumSize">
+                  <size>
+                      <width>41</width>
+                      <height>31</height>
+                  </size>
+              </property>
+              <property name="text">
+                  <string/>
+              </property>
+              <property name="icon">
+                  <iconset>
+                      <normaloff>Resources/fleche_haut.png</normaloff>Resources/fleche_haut.png
+                  </iconset>
+              </property>
+          </widget>
+          <widget class="QPushButton" name="btnDeleteRule">
+              <property name="enabled">
+                  <bool>true</bool>
+              </property>
+              <property name="geometry">
+                  <rect>
+                      <x>630</x>
+                      <y>50</y>
+                      <width>41</width>
+                      <height>31</height>
+                  </rect>
+              </property>
+              <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                  </sizepolicy>
+              </property>
+              <property name="minimumSize">
+                  <size>
+                      <width>41</width>
+                      <height>31</height>
+                  </size>
+              </property>
+              <property name="maximumSize">
+                  <size>
+                      <width>41</width>
+                      <height>31</height>
+                  </size>
+              </property>
+              <property name="text">
+                  <string/>
+              </property>
+              <property name="icon">
+                  <iconset>
+                      <normaloff>Resources/moins-rouge-enlevez-icone-8984-32.png</normaloff>
+                      Resources/moins-rouge-enlevez-icone-8984-32.png
+                  </iconset>
+              </property>
+          </widget>
+          <zorder>tableRules</zorder>
+          <zorder>btnDownRule</zorder>
+          <zorder>btnUpRule</zorder>
+          <zorder>btnDeleteRule</zorder>
+          <zorder>gridLayoutWidget</zorder>
       </widget>
       <widget class="QGroupBox" name="groupBoxTableFile">
           <property name="geometry">
               <rect>
                   <x>20</x>
-                  <y>220</y>
-                  <width>681</width>
+                  <y>430</y>
+                  <width>1261</width>
                   <height>321</height>
               </rect>
           </property>
           <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
               </sizepolicy>
           </property>
+          <property name="minimumSize">
+              <size>
+                  <width>699</width>
+                  <height>321</height>
+              </size>
+          </property>
           <property name="layoutDirection">
               <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="autoFillBackground">
+              <bool>true</bool>
           </property>
           <property name="title">
               <string>Liste fichiers</string>
@@ -314,7 +564,7 @@
                   </rect>
               </property>
               <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                   </sizepolicy>
@@ -328,7 +578,7 @@
               <property name="maximumSize">
                   <size>
                       <width>16777215</width>
-                      <height>251</height>
+                      <height>16777215</height>
                   </size>
               </property>
               <property name="acceptDrops">
@@ -354,6 +604,9 @@
               </attribute>
               <attribute name="horizontalHeaderDefaultSectionSize">
                   <number>150</number>
+              </attribute>
+              <attribute name="horizontalHeaderStretchLastSection">
+                  <bool>true</bool>
               </attribute>
               <column>
                   <property name="text">
@@ -383,6 +636,24 @@
                       <height>31</height>
                   </rect>
               </property>
+              <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                  </sizepolicy>
+              </property>
+              <property name="minimumSize">
+                  <size>
+                      <width>41</width>
+                      <height>31</height>
+                  </size>
+              </property>
+              <property name="maximumSize">
+                  <size>
+                      <width>41</width>
+                      <height>31</height>
+                  </size>
+              </property>
               <property name="text">
                   <string/>
               </property>
@@ -402,140 +673,38 @@
                       <height>23</height>
                   </rect>
               </property>
+              <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                      <horstretch>50</horstretch>
+                      <verstretch>50</verstretch>
+                  </sizepolicy>
+              </property>
+              <property name="minimumSize">
+                  <size>
+                      <width>221</width>
+                      <height>23</height>
+                  </size>
+              </property>
+              <property name="maximumSize">
+                  <size>
+                      <width>221</width>
+                      <height>23</height>
+                  </size>
+              </property>
+              <property name="autoFillBackground">
+                  <bool>false</bool>
+              </property>
               <property name="text">
                   <string>Renommer fichier</string>
               </property>
-          </widget>
-      </widget>
-      <widget class="QGroupBox" name="groupBoxTableRule">
-          <property name="geometry">
-              <rect>
-                  <x>20</x>
-                  <y>10</y>
-                  <width>681</width>
-                  <height>201</height>
-              </rect>
-          </property>
-          <property name="title">
-              <string>Liste régles</string>
-          </property>
-          <widget class="QTableWidget" name="tableRules">
-              <property name="geometry">
-                  <rect>
-                      <x>10</x>
-                      <y>20</y>
-                      <width>611</width>
-                      <height>171</height>
-                  </rect>
-              </property>
-              <property name="acceptDrops">
+              <property name="flat">
                   <bool>false</bool>
               </property>
-              <property name="styleSheet">
-                  <string notr="true"/>
-              </property>
-              <property name="frameShadow">
-                  <enum>QFrame::Sunken</enum>
-              </property>
-              <property name="editTriggers">
-                  <set>QAbstractItemView::NoEditTriggers</set>
-              </property>
-              <property name="dragDropMode">
-                  <enum>QAbstractItemView::NoDragDrop</enum>
-              </property>
-              <property name="selectionMode">
-                  <enum>QAbstractItemView::SingleSelection</enum>
-              </property>
-              <property name="selectionBehavior">
-                  <enum>QAbstractItemView::SelectRows</enum>
-              </property>
-              <property name="showGrid">
-                  <bool>true</bool>
-              </property>
-              <attribute name="horizontalHeaderHighlightSections">
-                  <bool>false</bool>
-              </attribute>
-              <attribute name="horizontalHeaderStretchLastSection">
-                  <bool>false</bool>
-              </attribute>
-              <attribute name="verticalHeaderHighlightSections">
-                  <bool>true</bool>
-              </attribute>
-              <column>
-                  <property name="text">
-                      <string>Couleur</string>
-                  </property>
-              </column>
-              <column>
-                  <property name="text">
-                      <string>Régle</string>
-                  </property>
-              </column>
           </widget>
-          <widget class="QPushButton" name="btnDownRule">
-              <property name="enabled">
-                  <bool>true</bool>
-              </property>
-              <property name="geometry">
-                  <rect>
-                      <x>630</x>
-                      <y>130</y>
-                      <width>41</width>
-                      <height>31</height>
-                  </rect>
-              </property>
-              <property name="text">
-                  <string/>
-              </property>
-              <property name="icon">
-                  <iconset>
-                      <normaloff>Resources/fleche_bas.png</normaloff>Resources/fleche_bas.png
-                  </iconset>
-              </property>
-          </widget>
-          <widget class="QPushButton" name="btnUpRule">
-              <property name="enabled">
-                  <bool>true</bool>
-              </property>
-              <property name="geometry">
-                  <rect>
-                      <x>630</x>
-                      <y>90</y>
-                      <width>41</width>
-                      <height>31</height>
-                  </rect>
-              </property>
-              <property name="text">
-                  <string/>
-              </property>
-              <property name="icon">
-                  <iconset>
-                      <normaloff>Resources/fleche_haut.png</normaloff>Resources/fleche_haut.png
-                  </iconset>
-              </property>
-          </widget>
-          <widget class="QPushButton" name="btnDeleteRule">
-              <property name="enabled">
-                  <bool>true</bool>
-              </property>
-              <property name="geometry">
-                  <rect>
-                      <x>630</x>
-                      <y>50</y>
-                      <width>41</width>
-                      <height>31</height>
-                  </rect>
-              </property>
-              <property name="text">
-                  <string/>
-              </property>
-              <property name="icon">
-                  <iconset>
-                      <normaloff>Resources/moins-rouge-enlevez-icone-8984-32.png</normaloff>
-                      Resources/moins-rouge-enlevez-icone-8984-32.png
-                  </iconset>
-              </property>
-          </widget>
+          <zorder>tableFiles</zorder>
+          <zorder>btnDeleteFile</zorder>
+          <zorder>btnRename</zorder>
+          <zorder>groupBoxRules</zorder>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -543,7 +712,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-        <width>1251</width>
+        <width>1447</width>
      <height>21</height>
     </rect>
    </property>
