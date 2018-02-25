@@ -11,12 +11,11 @@ class File:
     newName = ""
     dirpath = ""
 
-
     def __init__(self, filePath):
         self.path = filePath
         file = open(filePath)
         filename = basename(file.name)
-        match = re.match("(\w+)(([\.]\w+)+)", filename)
+        match = re.match("(.+)(([\.]\w+)+)", filename)
         self.name = match.group(1)  # capture name without extension
         self.newName = match.group(1)
         self.extension = match.group(2)  # capture only extension
