@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Fri Feb 23 23:49:16 2018
+# Created: Sun Apr 08 10:25:14 2018
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -19,6 +19,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
         MainWindow.setSizePolicy(sizePolicy)
         MainWindow.setMouseTracking(True)
+        MainWindow.setFocusPolicy(QtCore.Qt.ClickFocus)
         MainWindow.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
         MainWindow.setAcceptDrops(True)
         icon = QtGui.QIcon()
@@ -118,8 +119,9 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.tableRules.sizePolicy().hasHeightForWidth())
         self.tableRules.setSizePolicy(sizePolicy)
+        self.tableRules.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.tableRules.setAcceptDrops(False)
-        self.tableRules.setAutoFillBackground(True)
+        self.tableRules.setAutoFillBackground(False)
         self.tableRules.setStyleSheet("")
         self.tableRules.setFrameShadow(QtGui.QFrame.Sunken)
         self.tableRules.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
@@ -196,10 +198,14 @@ class Ui_MainWindow(object):
         self.tableFiles.setMinimumSize(QtCore.QSize(611, 251))
         self.tableFiles.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.tableFiles.setAcceptDrops(False)
+        self.tableFiles.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
         self.tableFiles.setDragEnabled(True)
         self.tableFiles.setDragDropMode(QtGui.QAbstractItemView.NoDragDrop)
-        self.tableFiles.setDefaultDropAction(QtCore.Qt.CopyAction)
+        self.tableFiles.setDefaultDropAction(QtCore.Qt.MoveAction)
         self.tableFiles.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
+        self.tableFiles.setTextElideMode(QtCore.Qt.ElideRight)
+        self.tableFiles.setHorizontalScrollMode(QtGui.QAbstractItemView.ScrollPerPixel)
+        self.tableFiles.setWordWrap(False)
         self.tableFiles.setObjectName("tableFiles")
         self.tableFiles.setColumnCount(3)
         self.tableFiles.setRowCount(0)
@@ -210,8 +216,9 @@ class Ui_MainWindow(object):
         item = QtGui.QTableWidgetItem()
         self.tableFiles.setHorizontalHeaderItem(2, item)
         self.tableFiles.horizontalHeader().setCascadingSectionResizes(False)
-        self.tableFiles.horizontalHeader().setDefaultSectionSize(150)
-        self.tableFiles.horizontalHeader().setStretchLastSection(True)
+        self.tableFiles.horizontalHeader().setDefaultSectionSize(250)
+        self.tableFiles.horizontalHeader().setSortIndicatorShown(False)
+        self.tableFiles.horizontalHeader().setStretchLastSection(False)
         self.btnDeleteFile = QtGui.QPushButton(self.groupBoxTableFile)
         self.btnDeleteFile.setEnabled(True)
         self.btnDeleteFile.setGeometry(QtCore.QRect(630, 50, 41, 31))

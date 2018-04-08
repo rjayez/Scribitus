@@ -3,6 +3,7 @@
 
 from PySide.QtCore import *
 from PySide.QtGui import *
+from PySide.QtGui import QDragEnterEvent
 
 import sys
 import os
@@ -15,15 +16,18 @@ from rule import *
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-    listRules = [ReplaceRule(color=ColorRule.PINK, elementAjout="1", elementSuppression="a"),
-                 ReplaceRule(color=ColorRule.GREY, elementAjout="2", elementSuppression="b"),
-                 ReplaceRule(color=ColorRule.RED, elementAjout="3", elementSuppression="c"),
-                 ReplaceRule(color=ColorRule.BLUE, elementAjout="tt", elementSuppression="123")
+    listRules = [
+        # ReplaceRule(color=ColorRule.PINK, elementAjout="1", elementSuppression="a"),
+        # ReplaceRule(color=ColorRule.GREY, elementAjout="2", elementSuppression="b"),
+        # ReplaceRule(color=ColorRule.RED, elementAjout="3", elementSuppression="c"),
+        # ReplaceRule(color=ColorRule.BLUE, elementAjout="tt", elementSuppression="123")
                  ]
-    # listRules = []
-    # listFiles = [File("Resources/Test/tetecoco.txt"), File("Resources/Test/abcde.txt"),
-    #              File("Resources/Test/teazertyuiop.txt")]
-    listFiles = [File("E:/Mes documents/Developpement/Scribitus/Resources/Test/ttde.txt")]
+    listFiles = [
+        # File("Resources/Test/ttde.txt"),
+        # File("Resources/Test/tetecoco.txt"),
+        # File("Resources/Test/teazertyuiop.txt"),
+        # File("Resources/Test/tetetete.txt")
+    ]
 
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -36,7 +40,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Initialisation de la liste des fichiers et rules pour les tests
         self.fillTableFile()
         self.fillTableRule()
-
+        self.tableFiles.resizeColumnsToContents()
 
     def assignWidgets(self):
         self.buttonRule.clicked.connect(self.addRule)
@@ -50,31 +54,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.btnDownRule.clicked.connect(self.downRule)
         self.btnRename.clicked.connect(self.renameFile)
 
+    # Paramètre les layouts pour l'interface
     def configureWidgets(self):
         # Layout pour l'écran
-        gridLayout = QGridLayout()
-        gridLayout.addWidget(self.groupBoxTableRule, 0, 0)
-        gridLayout.addWidget(self.groupBoxRules, 0, 1)
-        gridLayout.addWidget(self.groupBoxTableFile, 1, 0, 1, 2)
-        self.centralwidget.setLayout(gridLayout)
+        grid_layout = QGridLayout()
+        grid_layout.addWidget(self.groupBoxTableRule, 0, 0)
+        grid_layout.addWidget(self.groupBoxRules, 0, 1)
+        grid_layout.addWidget(self.groupBoxTableFile, 1, 0, 1, 2)
+        self.centralwidget.setLayout(grid_layout)
 
         # Layout pour la liste des règles
-        gridLayout = QGridLayout()
-        gridLayout.addWidget(self.tableRules, 0, 0, 5, 1)
-        gridLayout.addWidget(self.btnDeleteRule, 0, 1)
-        gridLayout.addWidget(self.btnUpRule, 1, 1)
-        gridLayout.addWidget(self.btnDownRule, 2, 1)
-        gridLayout.setRowStretch(0, 100)
-        self.groupBoxTableRule.setLayout(gridLayout)
+        grid_layout = QGridLayout()
+        grid_layout.addWidget(self.tableRules, 0, 0, 5, 1)
+        grid_layout.addWidget(self.btnDeleteRule, 0, 1)
+        grid_layout.addWidget(self.btnUpRule, 1, 1)
+        grid_layout.addWidget(self.btnDownRule, 2, 1)
+        grid_layout.setRowStretch(0, 100)
+        self.groupBoxTableRule.setLayout(grid_layout)
 
         # Layout pour la liste des fichiers
-        gridLayout = QGridLayout()
-        gridLayout.addWidget(self.tableFiles, 0, 0, 2, 1)
-        gridLayout.addWidget(self.btnDeleteFile, 0, 1)
-        gridLayout.addWidget(self.btnRename, 2, 0, 1, 2, Qt.AlignHCenter)
-        self.groupBoxTableFile.setLayout(gridLayout)
-
-
+        grid_layout = QGridLayout()
+        grid_layout.addWidget(self.tableFiles, 0, 0, 2, 1)
+        grid_layout.addWidget(self.btnDeleteFile, 0, 1)
+        grid_layout.addWidget(self.btnRename, 2, 0, 1, 2, Qt.AlignHCenter)
+        self.groupBoxTableFile.setLayout(grid_layout)
 
     # Methodes pour toggle les radio selon quels champs des regles sont édités
     def toggleRadioDelete(self):
@@ -213,8 +216,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                                                                                self.listRules)
 
             # Colonne ancien nom
+            oldNameColored = widgetUtils.applySurligneur(file.name, listSurligneurNomActuel)
             textEdit = widgetUtils.createScribitusQTextEdit()
-            textEdit.append(file.getFilename())
+            textEdit.append(oldNameColored + file.extension)
             self.tableFiles.setCellWidget(rowIndex, 0, textEdit)
 
             # Colonne nouveau nom
@@ -224,12 +228,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             textEdit = widgetUtils.createScribitusQTextEdit()
             textEdit.append(newNameColored + file.extension)
             self.tableFiles.setCellWidget(rowIndex, 1, textEdit)
-            self.tableFiles.resizeColumnsToContents()
 
             # Colonne chemin filepath
             self.tableFiles.setItem(rowIndex, 2, QTableWidgetItem(file.path))
 
-        self.tableFiles.resizeColumnsToContents()
         self.tableFiles.clearFocus()
 
     # Applique la liste des régles sur le nom de fichier
@@ -246,8 +248,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def addFile(self, filePath):
 
         file = File(filePath)
-        print(file.name)
-        print(file.path)
         self.listFiles.append(file)
         # Rafraichir la liste de fichier avec le nouveau nom (Voir pour une méthode unitaire si les perfs suivent pas)
         self.fillTableFile()
@@ -298,7 +298,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if event.mimeData().hasUrls():
             allDragIsFile = True
             for url in event.mimeData().urls():
-                if not os.path.isfile(url.toLocalFile()):
+                typedUrl = QUrl(url)
+                if not (os.path.isfile(url.toLocalFile()) or os.path.isdir(url.toLocalFile())):
                     allDragIsFile = False
 
             if allDragIsFile:
@@ -312,8 +313,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def dropEvent(self, event):
         if event.mimeData().hasUrls():
             for url in event.mimeData().urls():
-                if os.path.isfile(url.toLocalFile()):
+                if os.path.isfile(url.toLocalFile()) or os.path.isdir(url.toLocalFile()):
                     self.addFile(url.toLocalFile())
+
+    def focusInEvent(self, event):
+        self.tableRules.clearSelection()
+        self.tableFiles.clearSelection()
 
 
 if __name__ == '__main__':
