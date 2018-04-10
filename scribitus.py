@@ -1,32 +1,31 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from PySide.QtCore import *
-from PySide.QtGui import *
-from PySide.QtGui import QDragEnterEvent
-
-import sys
 import os
 
-from mainwindow import Ui_MainWindow
-import widgetUtils
+from PySide.QtCore import *
+from PySide.QtGui import *
+
 import surligneur
+import widgetUtils
+from KeyEnum import *
 from file import *
+from mainwindow import Ui_MainWindow
 from rule import *
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     listRules = [
-        # ReplaceRule(color=ColorRule.PINK, elementAjout="1", elementSuppression="a"),
-        # ReplaceRule(color=ColorRule.GREY, elementAjout="2", elementSuppression="b"),
-        # ReplaceRule(color=ColorRule.RED, elementAjout="3", elementSuppression="c"),
-        # ReplaceRule(color=ColorRule.BLUE, elementAjout="tt", elementSuppression="123")
+        ReplaceRule(color=ColorRule.PINK, elementAjout="1", elementSuppression="a"),
+        ReplaceRule(color=ColorRule.GREY, elementAjout="2", elementSuppression="b"),
+        ReplaceRule(color=ColorRule.RED, elementAjout="3", elementSuppression="c"),
+        ReplaceRule(color=ColorRule.BLUE, elementAjout="tt", elementSuppression="123")
                  ]
     listFiles = [
-        # File("Resources/Test/ttde.txt"),
-        # File("Resources/Test/tetecoco.txt"),
-        # File("Resources/Test/teazertyuiop.txt"),
-        # File("Resources/Test/tetetete.txt")
+        File("Resources/Test/ttde.txt"),
+        File("Resources/Test/tete3o3o.txt"),
+        File("Resources/Test/te1zertyuiop.txt"),
+        File("Resources/Test/tetetete.txt")
     ]
 
     def __init__(self):
@@ -78,6 +77,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         grid_layout.addWidget(self.btnDeleteFile, 0, 1)
         grid_layout.addWidget(self.btnRename, 2, 0, 1, 2, Qt.AlignHCenter)
         self.groupBoxTableFile.setLayout(grid_layout)
+
+        self.tableRules.installEventFilter(self)
+        self.tableFiles.installEventFilter(self)
 
     # Methodes pour toggle les radio selon quels champs des regles sont édités
     def toggleRadioDelete(self):
@@ -281,6 +283,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 print (file.dirpath + file.getNewFilename())
                 os.rename(file.dirpath + "/" + file.getFilename(),
                           file.dirpath + "/" + file.getNewFilename())
+                # update file object
+                file.path = file.dirpath + "/" + file.getNewFilename()
+                file.name = file.newName
+        self.fillTableFile()
 
     # Remplir liste de couleurs
     def remplirListeCouleur(self):
@@ -319,6 +325,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def focusInEvent(self, event):
         self.tableRules.clearSelection()
         self.tableFiles.clearSelection()
+
+    def eventFilter(self, widget, event):
+
+        if event.type() is QEvent.KeyPress and widget is self.tableRules:
+            if event.key() == KeyEnum.KEY_DELETE:
+                self.deleteRule()
+
+        if event.type() is QEvent.KeyPress and widget is self.tableFiles:
+            if event.key() == KeyEnum.KEY_DELETE:
+                self.deleteFile()
+
+        return QWidget.eventFilter(self, widget, event)
 
 
 if __name__ == '__main__':

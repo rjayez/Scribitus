@@ -202,7 +202,7 @@ def insertSurligneurAjout(listSurligneur, nouveauSurligneur):
     return listSurligneur
 
 
-# TODO
+# TODO Tester et finir la méthode
 def insertSurligneurSuppression(listSurligneur, surligneur):
     surligneurInsere = False
     largeurSurligneurSupprimer = surligneur.indexFin - surligneur.indexDebut
