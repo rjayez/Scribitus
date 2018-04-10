@@ -16,13 +16,13 @@ from rule import *
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     listRules = [
-        ReplaceRule(color=ColorRule.PINK, elementAjout="1", elementSuppression="a"),
-        ReplaceRule(color=ColorRule.GREY, elementAjout="2", elementSuppression="b"),
-        ReplaceRule(color=ColorRule.RED, elementAjout="3", elementSuppression="c"),
-        ReplaceRule(color=ColorRule.BLUE, elementAjout="tt", elementSuppression="123")
+        # ReplaceRule(color=ColorRule.PINK, elementAjout="1", elementSuppression="a"),
+        # ReplaceRule(color=ColorRule.GREY, elementAjout="2", elementSuppression="b"),
+        # ReplaceRule(color=ColorRule.RED, elementAjout="3", elementSuppression="c"),
+        # ReplaceRule(color=ColorRule.BLUE, elementAjout="tt", elementSuppression="123")
                  ]
     listFiles = [
-        File("Resources/Test/ttde.txt"),
+        File("Resources/Test/ttd3o.txt"),
         File("Resources/Test/tete3o3o.txt"),
         File("Resources/Test/te1zertyuiop.txt"),
         File("Resources/Test/tetetete.txt")
@@ -97,7 +97,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # QToolTip.showText(self.mapToGlobal(self.deleteText.pos()), "coucou")
 
         # Create rule object
-        selectedColor = self.listCouleur.itemData(self.listCouleur.currentIndex())
+        current_index = self.listCouleur.currentIndex()
+        selectedColor = self.listCouleur.itemData(current_index)
+        # Changement de couleur automatique à chaque nouvelle règle
+        if self.listCouleur.count() is current_index + 1:
+            self.listCouleur.setCurrentIndex(0)
+        else:
+            self.listCouleur.setCurrentIndex(current_index + 1)
 
         # Recuperation des informations selon le radio selectionne
         rule = None
