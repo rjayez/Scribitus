@@ -60,7 +60,7 @@ def creerListSurligneur(name, listRegle):
         elif rule.ruleType is TypeRule.DELETE:
             newName = rule.applyRule(newName)
             # Suppression => surligneur pour le nom actuel
-            for match in re.finditer(rule.elementSuppression, newName):
+            for match in re.finditer(rule.elementSuppression, name):
                 surligneur = Surligneur(match.start(), match.end(), rule.color)
                 listSurligneurNomActuel = insertSurligneurSuppression(listSurligneurNomActuel, surligneur)
 
@@ -74,8 +74,8 @@ def creerSurligneurReplace(rule, listSurligneurNomActuel, listSurligneurNomNouve
         # surligneurs en conséquence
         offset = len(rule.elementAjout) - len(rule.elementSuppression)
         listSurligneurNomNouveau = insertSurligneurReplace(listSurligneurNomNouveau, surligneur, offset)
+    surligneur = Surligneur(match.start(), match.end(), rule.color)
     for match in re.finditer(rule.elementSuppression, oldName):
-        surligneur = Surligneur(match.start(), match.end(), rule.color)
         offset = len(rule.elementAjout) - len(rule.elementSuppression)  # TODO Verifier si c'est le bon sens
         listSurligneurNomActuel = insertSurligneurReplace(listSurligneurNomActuel, surligneur, offset)
     return listSurligneurNomActuel, listSurligneurNomNouveau
@@ -250,6 +250,6 @@ def insertSurligneurSuppression(listSurligneur, surligneur):
         listSurligneur.insert(positionAInserer + 1, surligneur)
         listSurligneur.insert(positionAInserer + 2, listSurligneurSplit[1])
     else:
-        listSurligneur.insert(positionAInserer, surligneur)
+        listSurligneur.insert(positionAInserer + 1, surligneur)
 
     return listSurligneur
