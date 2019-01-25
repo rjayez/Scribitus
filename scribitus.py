@@ -20,11 +20,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # ReplaceRule(color=ColorRule.GREY, elementAjout="2", elementSuppression="b"),
         # ReplaceRule(color=ColorRule.RED, elementAjout="3", elementSuppression="c"),
         # ReplaceRule(color=ColorRule.BLUE, elementAjout="tt", elementSuppression="123")
-        DeleteRule(color=ColorRule.BLUE, elementSuppression="3o")
+        # DeleteRule(color=ColorRule.BLUE, elementSuppression="3o")
                  ]
     listFiles = [
         # File("Resources/Test/ttd3o.txt"),
-        File("Resources/Test/tete3o3o.txt"),
+        #File("Resources/Test/tete3o3o.txt"),
         # File("Resources/Test/te1zertyuiop.txt"),
         # File("Resources/Test/tetetete.txt")
     ]
