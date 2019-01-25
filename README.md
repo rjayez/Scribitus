@@ -7,3 +7,8 @@ Actually in developpment
 
 ## Interface
 ![Screen1](Resources/screen1.png)
+
+
+## Construire l'exécutable
+pyinstaller --noconsole --add-data "Resources/*;Resources" scribitus.py
+
